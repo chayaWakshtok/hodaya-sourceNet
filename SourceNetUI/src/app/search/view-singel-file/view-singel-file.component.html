@@ -1,0 +1,56 @@
+<div class="container">
+   <div class="row" dir="rtl">
+         <button type="button" class="close" aria-label="Close" >
+               <span aria-hidden="true">&times;</span>
+             </button>
+      <div class="col-sm-6"> 
+
+         <form dir="rtl" *ngIf="SingelFile">
+
+               <div class="form-group row">
+                 <label for="name" class="col-sm-4">שם קובץ:</label>
+                 <input type="text" class="form-control col-sm-6" id="name" placeholder="{{SingelFile.resourceName}}" name="name" disabled>
+               </div>
+         
+               <div class="form-group row">
+                 <label for="version" class="col-sm-4">גרסה:</label>
+                 <input type="text" class="form-control col-sm-6" id="version" placeholder="{{SingelFile.version}}" name="version" disabled>
+               </div>
+         
+               <div class="form-group row">
+                   <label for="authorName" class="col-sm-4">שם מחבר:</label>
+                   <input type="text" class="form-control col-sm-6" id="authorName" placeholder="{{SingelFile.authorName}}" name="authorName" disabled>
+               </div>
+               <div class="form-group row">
+                  <label for="date" class="col-sm-4">תאריך:</label>
+                  <input type="text" class="form-control col-sm-6" id="date" placeholder="{{SingelFile.date}}" name="date" disabled>
+               </div>
+
+               <div class="form-group row" *ngIf="SingelFile.Permissions&&SingelFile.Permissions.length>0">
+                  <label for="resourcePermission" class="col-sm-4">הרשאת קובץ:</label>
+                  <ng-select style="background-color: white;
+                  height: 9px;
+                  width: 270px;" [items]="SingelFile.Permissions" [multiple]="true"  [closeOnSelect]="false" disabled [clearOnBackspace]="false"
+                      bindLabel="permissionsType" [(ngModel)]="SingelFile.Permissions" name="control1">
+                  </ng-select>
+               </div>
+         
+               <div class="row buttons">
+                  <button *ngIf="viewPremission" type="button" class="btn col-sm-2">צפיה</button>
+                  <button type="button" *ngIf="writePremission" class="btn col-sm-2">כתיבה</button>
+                  <button type="button" *ngIf="donloadPremission" class="btn col-sm-2">הורדה</button>
+               </div>
+             </form>
+         
+      </div>
+
+
+
+      <div class="col-sm-6">
+         <iframe style="background-color: aliceblue" [src]="urlFile"></iframe>
+         <img src="../../assets/pictures/jpg.jpg" width="300" />
+      </div>>
+   </div>
+</div>
+
+

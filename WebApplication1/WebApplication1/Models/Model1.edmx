@@ -1,0 +1,295 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SourceDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Categories">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="categoryName" Type="nvarchar" MaxLength="50" />
+          <Property Name="parentCategory" Type="int" />
+        </EntityType>
+        <EntityType Name="Permissions">
+          <Key>
+            <PropertyRef Name="permissionsCode" />
+          </Key>
+          <Property Name="permissionsCode" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="permissionsType" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ResourceCategory">
+          <Key>
+            <PropertyRef Name="resourceCode" />
+            <PropertyRef Name="categoryCode" />
+          </Key>
+          <Property Name="resourceCode" Type="int" Nullable="false" />
+          <Property Name="categoryCode" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ResourcePermission">
+          <Key>
+            <PropertyRef Name="ResouceCode" />
+            <PropertyRef Name="PermissionCode" />
+          </Key>
+          <Property Name="ResouceCode" Type="int" Nullable="false" />
+          <Property Name="PermissionCode" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Resources">
+          <Key>
+            <PropertyRef Name="resourceCode" />
+          </Key>
+          <Property Name="resourceCode" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="resourceName" Type="varchar" MaxLength="50" />
+          <Property Name="filePath" Type="text" />
+          <Property Name="version" Type="varchar" MaxLength="50" />
+          <Property Name="authorName" Type="varchar" MaxLength="50" />
+          <Property Name="date" Type="date" />
+          <Property Name="sizeB" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="numPage" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="type" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="userCode" />
+          </Key>
+          <Property Name="userCode" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userName" Type="varchar" MaxLength="50" />
+          <Property Name="password" Type="varchar" MaxLength="50" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+          <Property Name="permissionCode" Type="int" />
+          <Property Name="year" Type="date" />
+        </EntityType>
+        <Association Name="FK_ResourceCategory_Categories">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
+          <End Role="ResourceCategory" Type="Self.ResourceCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="ResourceCategory">
+              <PropertyRef Name="categoryCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ResourceCategory_Resources">
+          <End Role="Resources" Type="Self.Resources" Multiplicity="1" />
+          <End Role="ResourceCategory" Type="Self.ResourceCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Resources">
+              <PropertyRef Name="resourceCode" />
+            </Principal>
+            <Dependent Role="ResourceCategory">
+              <PropertyRef Name="resourceCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ResourcePermission_Permissions">
+          <End Role="Permissions" Type="Self.Permissions" Multiplicity="1" />
+          <End Role="ResourcePermission" Type="Self.ResourcePermission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Permissions">
+              <PropertyRef Name="permissionsCode" />
+            </Principal>
+            <Dependent Role="ResourcePermission">
+              <PropertyRef Name="PermissionCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ResourcePermission_Resources">
+          <End Role="Resources" Type="Self.Resources" Multiplicity="1" />
+          <End Role="ResourcePermission" Type="Self.ResourcePermission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Resources">
+              <PropertyRef Name="resourceCode" />
+            </Principal>
+            <Dependent Role="ResourcePermission">
+              <PropertyRef Name="ResouceCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SourceDataModelStoreContainer">
+          <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Permissions" EntityType="Self.Permissions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ResourceCategory" EntityType="Self.ResourceCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ResourcePermission" EntityType="Self.ResourcePermission" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Resources" EntityType="Self.Resources" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ResourceCategory_Categories" Association="Self.FK_ResourceCategory_Categories">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="ResourceCategory" EntitySet="ResourceCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ResourceCategory_Resources" Association="Self.FK_ResourceCategory_Resources">
+            <End Role="Resources" EntitySet="Resources" />
+            <End Role="ResourceCategory" EntitySet="ResourceCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ResourcePermission_Permissions" Association="Self.FK_ResourcePermission_Permissions">
+            <End Role="Permissions" EntitySet="Permissions" />
+            <End Role="ResourcePermission" EntitySet="ResourcePermission" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ResourcePermission_Resources" Association="Self.FK_ResourcePermission_Resources">
+            <End Role="Resources" EntitySet="Resources" />
+            <End Role="ResourcePermission" EntitySet="ResourcePermission" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SourceDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="categoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="parentCategory" Type="Int32" />
+          <NavigationProperty Name="Resources" Relationship="Self.ResourceCategory" FromRole="Categories" ToRole="Resources" />
+        </EntityType>
+        <EntityType Name="Permission">
+          <Key>
+            <PropertyRef Name="permissionsCode" />
+          </Key>
+          <Property Name="permissionsCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="permissionsType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Resources" Relationship="Self.ResourcePermission" FromRole="Permissions" ToRole="Resources" />
+        </EntityType>
+        <EntityType Name="Resource">
+          <Key>
+            <PropertyRef Name="resourceCode" />
+          </Key>
+          <Property Name="resourceCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="resourceName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="filePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="version" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="authorName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="date" Type="DateTime" Precision="0" />
+          <Property Name="sizeB" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="numPage" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="type" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Categories" Relationship="Self.ResourceCategory" FromRole="Resources" ToRole="Categories" />
+          <NavigationProperty Name="Permissions" Relationship="Self.ResourcePermission" FromRole="Resources" ToRole="Permissions" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="userCode" />
+          </Key>
+          <Property Name="userCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="permissionCode" Type="Int32" />
+          <Property Name="year" Type="DateTime" Precision="0" />
+        </EntityType>
+        <Association Name="ResourceCategory">
+          <End Role="Categories" Type="Self.Category" Multiplicity="*" />
+          <End Role="Resources" Type="Self.Resource" Multiplicity="*" />
+        </Association>
+        <Association Name="ResourcePermission">
+          <End Role="Permissions" Type="Self.Permission" Multiplicity="*" />
+          <End Role="Resources" Type="Self.Resource" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="SourceDataEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Categories" EntityType="Self.Category" />
+          <EntitySet Name="Permissions" EntityType="Self.Permission" />
+          <EntitySet Name="Resources" EntityType="Self.Resource" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="ResourceCategory" Association="Self.ResourceCategory">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Resources" EntitySet="Resources" />
+          </AssociationSet>
+          <AssociationSet Name="ResourcePermission" Association="Self.ResourcePermission">
+            <End Role="Permissions" EntitySet="Permissions" />
+            <End Role="Resources" EntitySet="Resources" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SourceDataModelStoreContainer" CdmEntityContainer="SourceDataEntities">
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="SourceDataModel.Category">
+              <MappingFragment StoreEntitySet="Categories">
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="categoryName" ColumnName="categoryName" />
+                <ScalarProperty Name="parentCategory" ColumnName="parentCategory" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Permissions">
+            <EntityTypeMapping TypeName="SourceDataModel.Permission">
+              <MappingFragment StoreEntitySet="Permissions">
+                <ScalarProperty Name="permissionsCode" ColumnName="permissionsCode" />
+                <ScalarProperty Name="permissionsType" ColumnName="permissionsType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Resources">
+            <EntityTypeMapping TypeName="SourceDataModel.Resource">
+              <MappingFragment StoreEntitySet="Resources">
+                <ScalarProperty Name="resourceCode" ColumnName="resourceCode" />
+                <ScalarProperty Name="resourceName" ColumnName="resourceName" />
+                <ScalarProperty Name="filePath" ColumnName="filePath" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="authorName" ColumnName="authorName" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="sizeB" ColumnName="sizeB" />
+                <ScalarProperty Name="numPage" ColumnName="numPage" />
+                <ScalarProperty Name="type" ColumnName="type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="SourceDataModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="userCode" ColumnName="userCode" />
+                <ScalarProperty Name="userName" ColumnName="userName" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="permissionCode" ColumnName="permissionCode" />
+                <ScalarProperty Name="year" ColumnName="year" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="ResourceCategory" TypeName="SourceDataModel.ResourceCategory" StoreEntitySet="ResourceCategory">
+            <EndProperty Name="Categories">
+              <ScalarProperty Name="CategoryId" ColumnName="categoryCode" />
+            </EndProperty>
+            <EndProperty Name="Resources">
+              <ScalarProperty Name="resourceCode" ColumnName="resourceCode" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="ResourcePermission" TypeName="SourceDataModel.ResourcePermission" StoreEntitySet="ResourcePermission">
+            <EndProperty Name="Permissions">
+              <ScalarProperty Name="permissionsCode" ColumnName="PermissionCode" />
+            </EndProperty>
+            <EndProperty Name="Resources">
+              <ScalarProperty Name="resourceCode" ColumnName="ResouceCode" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

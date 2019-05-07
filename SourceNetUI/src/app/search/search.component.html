@@ -1,0 +1,101 @@
+<div class="container">
+    <form dir="rtl">
+      <div class="form-group row">
+          <label class="col-sm-2">מיין לפי</label>
+          <select id="soflow-color" class="form-control col-sm-3" (change)="ChangingValue(sel.value)" #sel>
+            <option value="0" disabled selected>מיין לפי</option>
+            <option value="1">שם קובץ</option>
+            <option value="2">תג</option>
+            <option value="3">סוג קובץ</option>
+            <option value="4">תאריך</option>
+          </select>
+      </div>
+
+      <div dir="rtl" class="row">
+        <app-search-by-date *ngIf="selectSearchBydate" (searchByDate)="searchByDate($event)" (removeSearchByDate)="removeDate()"  class="col-sm-6 col-lg-3"></app-search-by-date>
+        <app-search-by-tag *ngIf="selectSearchBytag" (searchByTag)="searchByTag($event)" (removeSearchByTag)="removeTag()" class="col-sm-6 col-lg-3"></app-search-by-tag>
+        <app-search-by-name *ngIf="selectSearchByname" (searchByName)="searchByName($event)" (removeSearchByName)="removeName()" class="col-sm-6 col-lg-3"></app-search-by-name>
+        <app-search-by-type *ngIf="selectSearchBytype" (searchByType)="searchByType($event)" (removeSearchByType)="removeType()" class="col-sm-6 col-lg-3"></app-search-by-type>
+      </div>
+
+      <div dir="rtl" class="row">
+        <div *ngIf="resourceFillter.length>0">
+          <h5>no data</h5>
+        </div>
+        <div *ngFor="let res of resourceFillter" class="file">
+            <button class="btnFile" type="button" (click)="showFile(res)" [ngSwitch]="res.resourceName">
+                <p>{{res.resourceName}}</p>
+                
+                <div *ngIf="res.resourceName.includes('.jpg')">
+                    <img src="../../assets/pictures/jpg.jpg" />
+                </div>
+
+                <div *ngIf="res.resourceName.includes('.txt')">
+                  <img src="../../assets/pictures/jpg.jpg" />
+              </div>
+
+              <div *ngIf="res.resourceName.includes('.xlsx')">
+                <img src="../../assets/pictures/jpg.jpg" />
+            </div>
+
+                <div *ngIf="res.resourceName.includes('.pdf')">
+                    <img src="../../assets/pictures/pdf.jpg" style="margin-top:-20px"/>
+                </div>
+
+                <div *ngIf="res.resourceName.includes('.docx')">
+                    <img src="../../assets/pictures/docx.png" style="margin-top:-20px"/>
+                </div>
+
+                <!-- <div *ngSwitchDefault>
+                    <img src="../../assets/pictures/defult.png"/>
+                </div>  -->
+
+            </button>
+        </div>
+      </div>
+    </form>
+</div>
+
+<ngx-smart-modal #myModal identifier="myModal">
+   
+    <form dir="rtl" >
+
+        <div class="form-group row" *ngIf="SingelFile">
+          <label for="name" class="col-sm-4">שם קובץ:</label>
+          <input type="text" class="form-control col-sm-6" id="name" placeholder="{{SingelFile.resourceName}}" name="name" disabled>
+        </div>
+  
+        <div class="form-group row" *ngIf="SingelFile">
+          <label for="version" class="col-sm-4">גרסה:</label>
+          <input type="text" class="form-control col-sm-6" id="version" placeholder="{{SingelFile.version}}" name="version" disabled>
+        </div>
+  
+        <div class="form-group row" *ngIf="SingelFile">
+            <label for="authorName" class="col-sm-4">שם מחבר:</label>
+            <input type="text" class="form-control col-sm-6" id="authorName" placeholder="{{SingelFile.authorName}}" name="authorName" disabled>
+        </div>
+        <div class="form-group row" *ngIf="SingelFile">
+           <label for="date" class="col-sm-4">תאריך:</label>
+           <input type="text" class="form-control col-sm-6" id="date" placeholder="{{SingelFile.date}}" name="date" disabled>
+        </div>
+
+        <div class="form-group row" *ngIf="SingelFile&&SingelFile.Permissions&&SingelFile.Permissions.length>0">
+           <label for="resourcePermission" class="col-sm-4">הרשאת קובץ:</label>
+           <ng-select style="background-color: white;
+           height: 9px;
+           width: 270px;" [items]="SingelFile.Permissions" [multiple]="true"  [closeOnSelect]="false" disabled [clearOnBackspace]="false"
+               bindLabel="permissionsType" [(ngModel)]="SingelFile.Permissions" name="control1">
+           </ng-select>
+        </div>
+  
+        <div class="row buttons">
+           <button *ngIf="viewPremission" type="button" class="btn col-sm-2">צפיה</button>
+           <button type="button" *ngIf="writePremission" class="btn col-sm-2">כתיבה</button>
+           <button type="button" *ngIf="donloadPremission" class="btn col-sm-2">הורדה</button>
+        </div>
+      </form>
+      <div class="col-sm-6">
+          <iframe style="background-color: aliceblue" [src]="urlFile" width="300"></iframe>
+       </div>
+    <button (click)="myModal.close()">Close</button>
+  </ngx-smart-modal>

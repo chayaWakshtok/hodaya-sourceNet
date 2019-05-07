@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SourceDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Categories">
+    <Key>
+      <PropertyRef Name="CategoryId" />
+    </Key>
+    <Property Name="CategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="categoryName" Type="nvarchar" MaxLength="50" />
+    <Property Name="parentCategory" Type="int" />
+  </EntityType>
+  <EntityType Name="Permissions">
+    <Key>
+      <PropertyRef Name="permissionsCode" />
+    </Key>
+    <Property Name="permissionsCode" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="permissionsType" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="ResourceCategory">
+    <Key>
+      <PropertyRef Name="resourceCode" />
+      <PropertyRef Name="categoryCode" />
+    </Key>
+    <Property Name="resourceCode" Type="int" Nullable="false" />
+    <Property Name="categoryCode" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ResourcePermission">
+    <Key>
+      <PropertyRef Name="ResouceCode" />
+      <PropertyRef Name="PermissionCode" />
+    </Key>
+    <Property Name="ResouceCode" Type="int" Nullable="false" />
+    <Property Name="PermissionCode" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Resources">
+    <Key>
+      <PropertyRef Name="resourceCode" />
+    </Key>
+    <Property Name="resourceCode" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="resourceName" Type="varchar" MaxLength="50" />
+    <Property Name="filePath" Type="text" />
+    <Property Name="version" Type="varchar" MaxLength="50" />
+    <Property Name="authorName" Type="varchar" MaxLength="50" />
+    <Property Name="date" Type="date" />
+    <Property Name="sizeB" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="numPage" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="type" Type="varchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="userCode" />
+    </Key>
+    <Property Name="userCode" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="userName" Type="varchar" MaxLength="50" />
+    <Property Name="password" Type="varchar" MaxLength="50" />
+    <Property Name="email" Type="varchar" MaxLength="50" />
+    <Property Name="permissionCode" Type="int" />
+    <Property Name="year" Type="date" />
+  </EntityType>
+  <Association Name="FK_ResourceCategory_Categories">
+    <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
+    <End Role="ResourceCategory" Type="Self.ResourceCategory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categories">
+        <PropertyRef Name="CategoryId" />
+      </Principal>
+      <Dependent Role="ResourceCategory">
+        <PropertyRef Name="categoryCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ResourceCategory_Resources">
+    <End Role="Resources" Type="Self.Resources" Multiplicity="1" />
+    <End Role="ResourceCategory" Type="Self.ResourceCategory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Resources">
+        <PropertyRef Name="resourceCode" />
+      </Principal>
+      <Dependent Role="ResourceCategory">
+        <PropertyRef Name="resourceCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ResourcePermission_Permissions">
+    <End Role="Permissions" Type="Self.Permissions" Multiplicity="1" />
+    <End Role="ResourcePermission" Type="Self.ResourcePermission" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Permissions">
+        <PropertyRef Name="permissionsCode" />
+      </Principal>
+      <Dependent Role="ResourcePermission">
+        <PropertyRef Name="PermissionCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ResourcePermission_Resources">
+    <End Role="Resources" Type="Self.Resources" Multiplicity="1" />
+    <End Role="ResourcePermission" Type="Self.ResourcePermission" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Resources">
+        <PropertyRef Name="resourceCode" />
+      </Principal>
+      <Dependent Role="ResourcePermission">
+        <PropertyRef Name="ResouceCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="SourceDataModelStoreContainer">
+    <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Permissions" EntityType="Self.Permissions" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ResourceCategory" EntityType="Self.ResourceCategory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ResourcePermission" EntityType="Self.ResourcePermission" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Resources" EntityType="Self.Resources" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_ResourceCategory_Categories" Association="Self.FK_ResourceCategory_Categories">
+      <End Role="Categories" EntitySet="Categories" />
+      <End Role="ResourceCategory" EntitySet="ResourceCategory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ResourceCategory_Resources" Association="Self.FK_ResourceCategory_Resources">
+      <End Role="Resources" EntitySet="Resources" />
+      <End Role="ResourceCategory" EntitySet="ResourceCategory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ResourcePermission_Permissions" Association="Self.FK_ResourcePermission_Permissions">
+      <End Role="Permissions" EntitySet="Permissions" />
+      <End Role="ResourcePermission" EntitySet="ResourcePermission" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ResourcePermission_Resources" Association="Self.FK_ResourcePermission_Resources">
+      <End Role="Resources" EntitySet="Resources" />
+      <End Role="ResourcePermission" EntitySet="ResourcePermission" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

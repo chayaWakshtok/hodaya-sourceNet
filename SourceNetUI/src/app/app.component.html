@@ -1,0 +1,47 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!--<nav class="navbar navbar-expand-sm navbar-light bg-light navbar-dark bg-dark">
+  <a class="glyphicon glyphicon-user" [routerLink]="['search']" style="font-size:26px; color:chocolate;"></a>
+ 
+  <div dir="rtl" class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item" [routerLinkActive]="['active']">
+        <a class="nav-link" [routerLink]="['search']">חיפוש</a>
+      </li>
+      <li class="nav-item" [routerLinkActive]="['active']">
+        <a class="nav-link" [routerLink]="['upload']">העלאה</a>
+      </li>
+      <li class="nav-item" [routerLinkActive]="['active']">
+        <a class="nav-link" [routerLink]="['addUser']">הוספת משתמש</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<router-outlet></router-outlet>
+-->
+<nav class="navbar navbar-expand-sm navbar-light bg-light navbar-dark bg-dark">
+  <a class="glyphicon glyphicon-user" (click)="linkPage('LogIn')" style="font-size:26px; color:chocolate;"></a>
+ 
+  <div dir="rtl" class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" (click)="linkPage('search')">חיפוש</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" (click)="linkPage('upload')">העלאה</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" (click)="linkPage('AddUser')">הוספת משתמש</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<p *ngIf="noPermissionToEnterpAge">{{strPremission}}</p>
+<app-search *ngIf="pageSearch"></app-search>
+<app-add-user *ngIf="pageAddUser"></app-add-user>
+<app-upload *ngIf="pageUpload"></app-upload>
+<app-log-in *ngIf="pageLogIn" (eLogIn)="logIn($event)"></app-log-in>

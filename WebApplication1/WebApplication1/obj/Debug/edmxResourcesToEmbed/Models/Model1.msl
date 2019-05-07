@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="SourceDataModelStoreContainer" CdmEntityContainer="SourceDataEntities">
+    <EntitySetMapping Name="Categories">
+      <EntityTypeMapping TypeName="SourceDataModel.Category">
+        <MappingFragment StoreEntitySet="Categories">
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+          <ScalarProperty Name="categoryName" ColumnName="categoryName" />
+          <ScalarProperty Name="parentCategory" ColumnName="parentCategory" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Permissions">
+      <EntityTypeMapping TypeName="SourceDataModel.Permission">
+        <MappingFragment StoreEntitySet="Permissions">
+          <ScalarProperty Name="permissionsCode" ColumnName="permissionsCode" />
+          <ScalarProperty Name="permissionsType" ColumnName="permissionsType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Resources">
+      <EntityTypeMapping TypeName="SourceDataModel.Resource">
+        <MappingFragment StoreEntitySet="Resources">
+          <ScalarProperty Name="resourceCode" ColumnName="resourceCode" />
+          <ScalarProperty Name="resourceName" ColumnName="resourceName" />
+          <ScalarProperty Name="filePath" ColumnName="filePath" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="authorName" ColumnName="authorName" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="sizeB" ColumnName="sizeB" />
+          <ScalarProperty Name="numPage" ColumnName="numPage" />
+          <ScalarProperty Name="type" ColumnName="type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="SourceDataModel.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="userCode" ColumnName="userCode" />
+          <ScalarProperty Name="userName" ColumnName="userName" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="permissionCode" ColumnName="permissionCode" />
+          <ScalarProperty Name="year" ColumnName="year" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="ResourceCategory" TypeName="SourceDataModel.ResourceCategory" StoreEntitySet="ResourceCategory">
+      <EndProperty Name="Categories">
+        <ScalarProperty Name="CategoryId" ColumnName="categoryCode" />
+      </EndProperty>
+      <EndProperty Name="Resources">
+        <ScalarProperty Name="resourceCode" ColumnName="resourceCode" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ResourcePermission" TypeName="SourceDataModel.ResourcePermission" StoreEntitySet="ResourcePermission">
+      <EndProperty Name="Permissions">
+        <ScalarProperty Name="permissionsCode" ColumnName="PermissionCode" />
+      </EndProperty>
+      <EndProperty Name="Resources">
+        <ScalarProperty Name="resourceCode" ColumnName="ResouceCode" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

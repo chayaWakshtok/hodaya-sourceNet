@@ -1,0 +1,10 @@
+<div dir="rtl" class="form-group"> 
+    <a href="#" (click)="removeSearch()" >
+        <span class="glyphicon glyphicon-remove col-sm-2"></span>
+    </a>
+    <select (change)="searchType()" name="type" [(ngModel)]="search" class="form-control col-sm-7">
+        <option *ngFor="let type of types"  [value]="type">{{type}}</option>
+    </select>
+    <label class="col-sm-3" for="type">סוג</label>
+  </div>
+
