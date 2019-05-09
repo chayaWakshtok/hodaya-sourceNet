@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Resource } from '../shared/resource';
 import { FilesService } from '../files.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ViewSingelFileComponent } from './view-singel-file/view-singel-file.component';
 import { NgxSmartModalService } from 'ngx-smart-modal';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -45,6 +43,21 @@ export class SearchComponent implements OnInit {
   donloadPremission: boolean = false;
 
   SingelFile: Resource;
+  iframeSrc: any="";
+  extType: any = "application/pdf";
+
+  public filesExtensions = {
+    
+    '.pdf': 'application/pdf',
+    '.jpg': 'image/jpeg',
+    '.jpeg': 'image/jpeg',
+    '.docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    '.png': 'image/png',
+    '.xml': 'application/xml',
+    '.doc': 'application/msword',
+    '.csv': 'text/csv',
+    '.txt': 'text/plain'
+  }
 
   ChangingValue(value: string) {
   
@@ -102,11 +115,16 @@ export class SearchComponent implements OnInit {
 
   showFile(res) {
     debugger;
-    this.viewSingelFile = true;
 
-    this.SelectedFile = res;
     this.SingelFile = res;
-    this.urlFile = this.sanitizer.bypassSecurityTrustResourceUrl("http://127.0.0.1:8887/Files/" + this.SingelFile.resourceName);
+    this.extType=this.SingelFile.type;
+    this.fileSevice.getContentFile(this.SingelFile.resourceCode).subscribe(con=>{
+      const blob=this.dataURItoBlob(con);
+      const url= window.URL.createObjectURL(blob);
+      this.iframeSrc = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    })
+   
+    // this.urlFile = this.sanitizer.bypassSecurityTrustResourceUrl("http://127.0.0.1:8887/Files/" + this.SingelFile.resourceName);
     this.SingelFile.Permissions.forEach(element => {
       if (element.permissionsCode == 4)
         this.writePremission = true;
@@ -118,7 +136,16 @@ export class SearchComponent implements OnInit {
     this.ngxSmartModalService.getModal('myModal').open();
   }
 
-
+  dataURItoBlob(dataURI) {
+    var binary = atob(dataURI["ContentBase64"]);
+    var array = [];
+  for (var i = 0; i < binary.length; i++) {
+     array.push(binary.charCodeAt(i));
+  }
+ return new Blob([new Uint8Array(array)], {
+    type: this.filesExtensions[dataURI["TypeFile"]]
+});
+}
   searchByDate(date) {
     this.valueSearchBydate = date;
     this.fillter();

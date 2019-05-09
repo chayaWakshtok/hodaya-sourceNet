@@ -95,7 +95,8 @@
         </div>
       </form>
       <div class="col-sm-6">
-          <iframe style="background-color: aliceblue" [src]="urlFile" width="300"></iframe>
+        
+          <iframe *ngIf="iframeSrc!=''" style="background-color: aliceblue" [src]="iframeSrc" width="300"></iframe>
        </div>
     <button (click)="myModal.close()">Close</button>
   </ngx-smart-modal>

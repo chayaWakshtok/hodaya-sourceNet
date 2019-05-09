@@ -10,7 +10,6 @@ import { SearchByDateComponent } from './search/SearchBy/search-by-date/search-b
 import { SearchByTypeComponent } from './search/SearchBy/search-by-type/search-by-type.component';
 import { UploadComponent } from './upload/upload.component';
 import { AddUserComponent } from './add-user/add-user.component';
-import { ViewSingelFileComponent } from './search/view-singel-file/view-singel-file.component';
 import { LogInComponent } from './log-in/log-in.component';
 import { TreeviewModule } from 'ngx-treeview';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -19,29 +18,38 @@ import { FileUploadModule } from 'ng2-file-upload';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {NgbModalModule, NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
 import { NgxSmartModalModule } from 'ngx-smart-modal';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    SearchComponent,
-    SearchByNameComponent,
-    SearchByTagComponent,
-    SearchByDateComponent,
-    SearchByTypeComponent,
-    UploadComponent,
-    AddUserComponent,
-    ViewSingelFileComponent,
-    LogInComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,NgSelectModule, FormsModule,FileUploadModule,
-    TreeviewModule.forRoot(),
-    NgbModule.forRoot(),NgbModalModule,NgxSmartModalModule.forRoot()
-  ],
-  entryComponents:[ViewSingelFileComponent],
-  providers: [],
-  bootstrap: [AppComponent]
+   declarations: [
+      AppComponent,
+      SearchComponent,
+      SearchByNameComponent,
+      SearchByTagComponent,
+      SearchByDateComponent,
+      SearchByTypeComponent,
+      UploadComponent,
+      AddUserComponent,
+      LogInComponent,
+      HeaderComponent
+   ],
+   imports: [
+      BrowserModule,
+      AppRoutingModule,
+      HttpClientModule,
+      NgSelectModule,
+      FormsModule,
+      FileUploadModule,
+      TreeviewModule.forRoot(),
+      NgbModule.forRoot(),
+      NgbModalModule,
+      NgxSmartModalModule.forRoot()
+   ],
+   entryComponents: [
+   ],
+   providers: [],
+   bootstrap: [
+      AppComponent
+   ]
 })
 export class AppModule { }

@@ -6,15 +6,15 @@ import { AddUserComponent } from './add-user/add-user.component';
 
 
 
-/*const routes: Routes = [
+const routes: Routes = [
   { path: "", redirectTo: "search", pathMatch: "full" },
   {path: 'search', component: SearchComponent},
   {path: 'upload', component: UploadComponent},
   {path: 'addUser', component: AddUserComponent},
 ];
-*/
+
 @NgModule({
- // imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

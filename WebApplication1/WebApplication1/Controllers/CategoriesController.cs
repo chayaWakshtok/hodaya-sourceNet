@@ -10,31 +10,50 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebApplication1.Models;
+using Microsoft.Office.Interop.Word;
 
 namespace WebApplication1.Controllers
 {
     public class CategoriesController : ApiController
     {
         private SourceDataEntities db = new SourceDataEntities();
+
+      
         [Route("api/ggg")]
         [HttpGet]
         public string ggg()
         {
-            byte[] pdfBytes = File.ReadAllBytes(@"C:\Users\User\Documents\sourceFile\Files\bnei_brak.txt");
+            var appWord = new Application();
+            if (appWord.Documents != null)
+            {
+                //yourDoc is your word document
+                var wordDocument = appWord.Documents.Open(@"C:\Users\User\Documents\sourceFile\Files\Boggle.docx");
+                string pdfDocName = "pdfDocument44.pdf";
+                if (wordDocument != null)
+                {
+                    wordDocument.ExportAsFixedFormat(pdfDocName,
+                    WdExportFormat.wdExportFormatPDF);
+                    wordDocument.Close();
+                }
+                appWord.Quit();
+            }
+            byte[] pdfBytes = File.ReadAllBytes(@"C:\Users\User\Documents\pdfDocument44.pdf");
             string pdfBase64 = Convert.ToBase64String(pdfBytes);
+
             return pdfBase64;
         }
+    
         // GET: api/Categories
-        public IQueryable<Category> GetCategories()
+        public IQueryable<Models.Category> GetCategories()
         {
             return db.Categories;
         }
 
         // GET: api/Categories/5
-        [ResponseType(typeof(Category))]
+        [ResponseType(typeof(Models.Category))]
         public IHttpActionResult GetCategory(int id)
         {
-            Category category = db.Categories.Find(id);
+            Models.Category category = db.Categories.Find(id);
             if (category == null)
             {
                 return NotFound();
@@ -45,7 +64,7 @@ namespace WebApplication1.Controllers
 
         // PUT: api/Categories/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutCategory(int id, Category category)
+        public IHttpActionResult PutCategory(int id, Models.Category category)
         {
             if (!ModelState.IsValid)
             {
@@ -79,8 +98,8 @@ namespace WebApplication1.Controllers
         }
 
         // POST: api/Categories
-        [ResponseType(typeof(Category))]
-        public IHttpActionResult PostCategory(Category category)
+        [ResponseType(typeof(Models.Category))]
+        public IHttpActionResult PostCategory(Models.Category category)
         {
             if (!ModelState.IsValid)
             {
@@ -94,10 +113,10 @@ namespace WebApplication1.Controllers
         }
 
         // DELETE: api/Categories/5
-        [ResponseType(typeof(Category))]
+        [ResponseType(typeof(Models.Category))]
         public IHttpActionResult DeleteCategory(int id)
         {
-            Category category = db.Categories.Find(id);
+            Models.Category category = db.Categories.Find(id);
             if (category == null)
             {
                 return NotFound();

@@ -3,19 +3,73 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
+using WordToPDF;
 using WebApplication1.Models;
+using GemBox.Document;
+using Spire.Xls;
 
 namespace WebApplication1.Controllers
 {
+    public class ResourcesPathShow
+    {
+        public string TypeFile { get; set; }
+        public string ContentBase64 { get; set; }
+
+    }
     public class ResourcesController : ApiController
     {
         private SourceDataEntities db = new SourceDataEntities();
+
+        [Route("api/getDataFile/{idResources}")]
+        [HttpGet]
+        public ResourcesPathShow GetDataFile(int idResources)
+        {
+            byte[] Bytes=new byte[10000000];
+            ResourcesPathShow resourcesPathShow = new ResourcesPathShow();        
+            var resources = db.Resources.Find(idResources);
+            string FileExtension = Path.GetExtension(resources.filePath);
+            if (FileExtension == ".pdf"|| FileExtension == ".jpg"|| FileExtension == ".jpeg"|| FileExtension == ".png"|| FileExtension == ".txt")
+            {
+                 Bytes = File.ReadAllBytes(resources.filePath);
+            }
+            if(FileExtension == ".doc" || FileExtension == ".docx")
+            {
+                Word2Pdf objWorPdf = new Word2Pdf();
+                string ChangeExtension = resources.filePath.Replace(FileExtension, ".pdf");
+                objWorPdf.InputLocation = resources.filePath;
+                objWorPdf.OutputLocation = ChangeExtension;
+                objWorPdf.Word2PdfCOnversion();
+                Bytes = File.ReadAllBytes(ChangeExtension);
+                File.Delete(ChangeExtension);
+                FileExtension = ".pdf";
+
+            }
+            if (FileExtension == ".xlsx" || FileExtension == ".csv")
+            {
+               
+                string ChangeExtension = resources.filePath.Replace(FileExtension, ".pdf");
+                Workbook workbook = new Workbook();
+                workbook.LoadFromFile(resources.filePath);
+
+                //Save the document in PDF format
+
+                workbook.SaveToFile(ChangeExtension, Spire.Xls.FileFormat.PDF);
+                Bytes = File.ReadAllBytes(ChangeExtension);
+                File.Delete(ChangeExtension);
+                FileExtension = ".pdf";
+            }
+            resourcesPathShow.TypeFile = FileExtension;
+            resourcesPathShow.ContentBase64 = Convert.ToBase64String(Bytes);
+            return resourcesPathShow;
+        }
+
 
         [HttpPost]
         [Route("api/UploadJsonFile")]

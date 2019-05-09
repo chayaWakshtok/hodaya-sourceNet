@@ -1,0 +1,22 @@
+.navbar{
+    padding-left: 38%;
+
+}
+.nav-link{
+    font-size: 12pt;
+    margin-right: 100px;
+}
+.glyphicon-user{
+    padding-right: 100px;
+}
+p{
+    background-color: rgba(26, 25, 24, 0.952);
+    margin:50px auto;
+    width: 1100px;
+    height: 100px;
+    border-radius: 15px;
+    padding-top: 35px;
+    color: white;
+    text-align: center;
+    font-size: 13pt;
+}
