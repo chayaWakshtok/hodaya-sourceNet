@@ -12,21 +12,18 @@ namespace WebApplication1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Permission
+    public partial class Role
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Permission()
+        public Role()
         {
-            this.Resources = new HashSet<Resource>();
-            this.Roles = new HashSet<Role>();
+            this.Permissions = new HashSet<Permission>();
         }
     
-        public int permissionsCode { get; set; }
-        public string permissionsType { get; set; }
+        public int roleCode { get; set; }
+        public string roleType { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Resource> Resources { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Role> Roles { get; set; }
+        public virtual ICollection<Permission> Permissions { get; set; }
     }
 }

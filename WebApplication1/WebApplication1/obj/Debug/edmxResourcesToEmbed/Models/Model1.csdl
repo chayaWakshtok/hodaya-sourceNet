@@ -16,6 +16,7 @@
     <Property Name="permissionsCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="permissionsType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Resources" Relationship="Self.ResourcePermission" FromRole="Permissions" ToRole="Resources" />
+    <NavigationProperty Name="Roles" Relationship="Self.RolesPremmision" FromRole="Permissions" ToRole="Role" />
   </EntityType>
   <EntityType Name="Resource">
     <Key>
@@ -33,6 +34,14 @@
     <NavigationProperty Name="Categories" Relationship="Self.ResourceCategory" FromRole="Resources" ToRole="Categories" />
     <NavigationProperty Name="Permissions" Relationship="Self.ResourcePermission" FromRole="Resources" ToRole="Permissions" />
   </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="roleCode" />
+    </Key>
+    <Property Name="roleCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="roleType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Permissions" Relationship="Self.RolesPremmision" FromRole="Role" ToRole="Permissions" />
+  </EntityType>
   <EntityType Name="User">
     <Key>
       <PropertyRef Name="userCode" />
@@ -41,7 +50,7 @@
     <Property Name="userName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="permissionCode" Type="Int32" />
+    <Property Name="roleCode" Type="Int32" />
     <Property Name="year" Type="DateTime" Precision="0" />
   </EntityType>
   <Association Name="ResourceCategory">
@@ -52,10 +61,15 @@
     <End Role="Permissions" Type="Self.Permission" Multiplicity="*" />
     <End Role="Resources" Type="Self.Resource" Multiplicity="*" />
   </Association>
-  <EntityContainer Name="SourceDataEntities" annotation:LazyLoadingEnabled="true">
+  <Association Name="RolesPremmision">
+    <End Role="Permissions" Type="Self.Permission" Multiplicity="*" />
+    <End Role="Role" Type="Self.Role" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="SourceDataEntities2" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Categories" EntityType="Self.Category" />
     <EntitySet Name="Permissions" EntityType="Self.Permission" />
     <EntitySet Name="Resources" EntityType="Self.Resource" />
+    <EntitySet Name="Roles" EntityType="Self.Role" />
     <EntitySet Name="Users" EntityType="Self.User" />
     <AssociationSet Name="ResourceCategory" Association="Self.ResourceCategory">
       <End Role="Categories" EntitySet="Categories" />
@@ -64,6 +78,10 @@
     <AssociationSet Name="ResourcePermission" Association="Self.ResourcePermission">
       <End Role="Permissions" EntitySet="Permissions" />
       <End Role="Resources" EntitySet="Resources" />
+    </AssociationSet>
+    <AssociationSet Name="RolesPremmision" Association="Self.RolesPremmision">
+      <End Role="Permissions" EntitySet="Permissions" />
+      <End Role="Role" EntitySet="Roles" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

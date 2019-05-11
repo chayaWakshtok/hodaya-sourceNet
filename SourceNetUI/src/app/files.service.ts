@@ -49,12 +49,16 @@ export class FilesService {
         return this.httpClient.get(url + 'api/openResource/' + resourceCode);
     }
 
+    getRoles() {
+        return this.httpClient.get(url + 'api/Roles');
+    }
+
     login() {
 
     }
 
-    addUser() {
-
+    addUser(user) {
+        return this.httpClient.post(url + 'api/Users',user);
     }
 
 }

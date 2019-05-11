@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="SourceDataModelStoreContainer" CdmEntityContainer="SourceDataEntities">
+  <EntityContainerMapping StorageEntityContainer="SourceDataModelStoreContainer" CdmEntityContainer="SourceDataEntities2">
     <EntitySetMapping Name="Categories">
       <EntityTypeMapping TypeName="SourceDataModel.Category">
         <MappingFragment StoreEntitySet="Categories">
@@ -33,6 +33,14 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Roles">
+      <EntityTypeMapping TypeName="SourceDataModel.Role">
+        <MappingFragment StoreEntitySet="Role">
+          <ScalarProperty Name="roleCode" ColumnName="roleCode" />
+          <ScalarProperty Name="roleType" ColumnName="roleType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="SourceDataModel.User">
         <MappingFragment StoreEntitySet="Users">
@@ -40,7 +48,7 @@
           <ScalarProperty Name="userName" ColumnName="userName" />
           <ScalarProperty Name="password" ColumnName="password" />
           <ScalarProperty Name="email" ColumnName="email" />
-          <ScalarProperty Name="permissionCode" ColumnName="permissionCode" />
+          <ScalarProperty Name="roleCode" ColumnName="roleCode" />
           <ScalarProperty Name="year" ColumnName="year" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -59,6 +67,14 @@
       </EndProperty>
       <EndProperty Name="Resources">
         <ScalarProperty Name="resourceCode" ColumnName="ResouceCode" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="RolesPremmision" TypeName="SourceDataModel.RolesPremmision" StoreEntitySet="RolesPremmision">
+      <EndProperty Name="Permissions">
+        <ScalarProperty Name="permissionsCode" ColumnName="premmisionId" />
+      </EndProperty>
+      <EndProperty Name="Role">
+        <ScalarProperty Name="roleCode" ColumnName="roleId" />
       </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>

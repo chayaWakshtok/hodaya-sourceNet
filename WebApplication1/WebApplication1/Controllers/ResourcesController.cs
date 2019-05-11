@@ -11,10 +11,10 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WordToPDF;
-using WebApplication1.Models;
 using GemBox.Document;
 using Spire.Xls;
 using Microsoft.Office.Interop.Word;
+using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
@@ -26,7 +26,7 @@ namespace WebApplication1.Controllers
     }
     public class ResourcesController : ApiController
     {
-        private SourceDataEntities db = new SourceDataEntities();
+        private SourceDataEntities2 db = new SourceDataEntities2();
 
         [Route("api/getDataFile/{idResources}")]
         [HttpGet]

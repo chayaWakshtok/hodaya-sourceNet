@@ -12,44 +12,44 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
-    public class PermissionsController : ApiController
+    public class RolesController : ApiController
     {
         private SourceDataEntities2 db = new SourceDataEntities2();
 
-        // GET: api/Permissions
-        public IQueryable<Permission> GetPermissions()
+        // GET: api/Roles
+        public IQueryable<Role> GetRoles()
         {
-            return db.Permissions;
+            return db.Roles;
         }
 
-        // GET: api/Permissions/5
-        [ResponseType(typeof(Permission))]
-        public IHttpActionResult GetPermission(int id)
+        // GET: api/Roles/5
+        [ResponseType(typeof(Role))]
+        public IHttpActionResult GetRole(int id)
         {
-            Permission permission = db.Permissions.Find(id);
-            if (permission == null)
+            Role role = db.Roles.Find(id);
+            if (role == null)
             {
                 return NotFound();
             }
 
-            return Ok(permission);
+            return Ok(role);
         }
 
-        // PUT: api/Permissions/5
+        // PUT: api/Roles/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutPermission(int id, Permission permission)
+        public IHttpActionResult PutRole(int id, Role role)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != permission.permissionsCode)
+            if (id != role.roleCode)
             {
                 return BadRequest();
             }
 
-            db.Entry(permission).State = EntityState.Modified;
+            db.Entry(role).State = EntityState.Modified;
 
             try
             {
@@ -57,7 +57,7 @@ namespace WebApplication1.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PermissionExists(id))
+                if (!RoleExists(id))
                 {
                     return NotFound();
                 }
@@ -70,35 +70,35 @@ namespace WebApplication1.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Permissions
-        [ResponseType(typeof(Permission))]
-        public IHttpActionResult PostPermission(Permission permission)
+        // POST: api/Roles
+        [ResponseType(typeof(Role))]
+        public IHttpActionResult PostRole(Role role)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Permissions.Add(permission);
+            db.Roles.Add(role);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = permission.permissionsCode }, permission);
+            return CreatedAtRoute("DefaultApi", new { id = role.roleCode }, role);
         }
 
-        // DELETE: api/Permissions/5
-        [ResponseType(typeof(Permission))]
-        public IHttpActionResult DeletePermission(int id)
+        // DELETE: api/Roles/5
+        [ResponseType(typeof(Role))]
+        public IHttpActionResult DeleteRole(int id)
         {
-            Permission permission = db.Permissions.Find(id);
-            if (permission == null)
+            Role role = db.Roles.Find(id);
+            if (role == null)
             {
                 return NotFound();
             }
 
-            db.Permissions.Remove(permission);
+            db.Roles.Remove(role);
             db.SaveChanges();
 
-            return Ok(permission);
+            return Ok(role);
         }
 
         protected override void Dispose(bool disposing)
@@ -110,9 +110,9 @@ namespace WebApplication1.Controllers
             base.Dispose(disposing);
         }
 
-        private bool PermissionExists(int id)
+        private bool RoleExists(int id)
         {
-            return db.Permissions.Count(e => e.permissionsCode == id) > 0;
+            return db.Roles.Count(e => e.roleCode == id) > 0;
         }
     }
 }

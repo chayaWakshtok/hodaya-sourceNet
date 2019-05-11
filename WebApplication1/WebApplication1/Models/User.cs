@@ -18,7 +18,7 @@ namespace WebApplication1.Models
         public string userName { get; set; }
         public string password { get; set; }
         public string email { get; set; }
-        public Nullable<int> permissionCode { get; set; }
+        public Nullable<int> roleCode { get; set; }
         public Nullable<System.DateTime> year { get; set; }
     }
 }

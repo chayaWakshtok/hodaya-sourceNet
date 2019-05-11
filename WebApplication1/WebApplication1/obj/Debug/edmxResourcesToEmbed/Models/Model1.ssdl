@@ -45,6 +45,21 @@
     <Property Name="numPage" Type="numeric" Precision="18" Scale="0" />
     <Property Name="type" Type="varchar" MaxLength="200" />
   </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="roleCode" />
+    </Key>
+    <Property Name="roleCode" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="roleType" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="RolesPremmision">
+    <Key>
+      <PropertyRef Name="premmisionId" />
+      <PropertyRef Name="roleId" />
+    </Key>
+    <Property Name="premmisionId" Type="int" Nullable="false" />
+    <Property Name="roleId" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="Users">
     <Key>
       <PropertyRef Name="userCode" />
@@ -53,7 +68,7 @@
     <Property Name="userName" Type="varchar" MaxLength="50" />
     <Property Name="password" Type="varchar" MaxLength="50" />
     <Property Name="email" Type="varchar" MaxLength="50" />
-    <Property Name="permissionCode" Type="int" />
+    <Property Name="roleCode" Type="int" />
     <Property Name="year" Type="date" />
   </EntityType>
   <Association Name="FK_ResourceCategory_Categories">
@@ -104,12 +119,38 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_RolesPremmision_Permissions">
+    <End Role="Permissions" Type="Self.Permissions" Multiplicity="1" />
+    <End Role="RolesPremmision" Type="Self.RolesPremmision" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Permissions">
+        <PropertyRef Name="permissionsCode" />
+      </Principal>
+      <Dependent Role="RolesPremmision">
+        <PropertyRef Name="premmisionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RolesPremmision_Role">
+    <End Role="Role" Type="Self.Role" Multiplicity="1" />
+    <End Role="RolesPremmision" Type="Self.RolesPremmision" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="roleCode" />
+      </Principal>
+      <Dependent Role="RolesPremmision">
+        <PropertyRef Name="roleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="SourceDataModelStoreContainer">
     <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Permissions" EntityType="Self.Permissions" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ResourceCategory" EntityType="Self.ResourceCategory" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ResourcePermission" EntityType="Self.ResourcePermission" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Resources" EntityType="Self.Resources" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RolesPremmision" EntityType="Self.RolesPremmision" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_ResourceCategory_Categories" Association="Self.FK_ResourceCategory_Categories">
       <End Role="Categories" EntitySet="Categories" />
@@ -126,6 +167,14 @@
     <AssociationSet Name="FK_ResourcePermission_Resources" Association="Self.FK_ResourcePermission_Resources">
       <End Role="Resources" EntitySet="Resources" />
       <End Role="ResourcePermission" EntitySet="ResourcePermission" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RolesPremmision_Permissions" Association="Self.FK_RolesPremmision_Permissions">
+      <End Role="Permissions" EntitySet="Permissions" />
+      <End Role="RolesPremmision" EntitySet="RolesPremmision" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RolesPremmision_Role" Association="Self.FK_RolesPremmision_Role">
+      <End Role="Role" EntitySet="Role" />
+      <End Role="RolesPremmision" EntitySet="RolesPremmision" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

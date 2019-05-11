@@ -13,10 +13,10 @@ namespace WebApplication1.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class SourceDataEntities : DbContext
+    public partial class SourceDataEntities2 : DbContext
     {
-        public SourceDataEntities()
-            : base("name=SourceDataEntities")
+        public SourceDataEntities2()
+            : base("name=SourceDataEntities2")
         {
         }
     
@@ -28,6 +28,7 @@ namespace WebApplication1.Models
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Permission> Permissions { get; set; }
         public virtual DbSet<Resource> Resources { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<User> Users { get; set; }
     }
 }

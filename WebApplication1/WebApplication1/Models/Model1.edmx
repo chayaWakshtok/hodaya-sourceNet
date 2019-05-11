@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="SourceDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="SourceDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Categories">
           <Key>
             <PropertyRef Name="CategoryId" />
@@ -50,6 +50,21 @@
           <Property Name="numPage" Type="numeric" Precision="18" Scale="0" />
           <Property Name="type" Type="varchar" MaxLength="200" />
         </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="roleCode" />
+          </Key>
+          <Property Name="roleCode" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="roleType" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="RolesPremmision">
+          <Key>
+            <PropertyRef Name="premmisionId" />
+            <PropertyRef Name="roleId" />
+          </Key>
+          <Property Name="premmisionId" Type="int" Nullable="false" />
+          <Property Name="roleId" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="userCode" />
@@ -58,7 +73,7 @@
           <Property Name="userName" Type="varchar" MaxLength="50" />
           <Property Name="password" Type="varchar" MaxLength="50" />
           <Property Name="email" Type="varchar" MaxLength="50" />
-          <Property Name="permissionCode" Type="int" />
+          <Property Name="roleCode" Type="int" />
           <Property Name="year" Type="date" />
         </EntityType>
         <Association Name="FK_ResourceCategory_Categories">
@@ -109,12 +124,38 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_RolesPremmision_Permissions">
+          <End Role="Permissions" Type="Self.Permissions" Multiplicity="1" />
+          <End Role="RolesPremmision" Type="Self.RolesPremmision" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Permissions">
+              <PropertyRef Name="permissionsCode" />
+            </Principal>
+            <Dependent Role="RolesPremmision">
+              <PropertyRef Name="premmisionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RolesPremmision_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="RolesPremmision" Type="Self.RolesPremmision" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="roleCode" />
+            </Principal>
+            <Dependent Role="RolesPremmision">
+              <PropertyRef Name="roleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="SourceDataModelStoreContainer">
           <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Permissions" EntityType="Self.Permissions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ResourceCategory" EntityType="Self.ResourceCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ResourcePermission" EntityType="Self.ResourcePermission" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Resources" EntityType="Self.Resources" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RolesPremmision" EntityType="Self.RolesPremmision" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_ResourceCategory_Categories" Association="Self.FK_ResourceCategory_Categories">
             <End Role="Categories" EntitySet="Categories" />
@@ -132,8 +173,17 @@
             <End Role="Resources" EntitySet="Resources" />
             <End Role="ResourcePermission" EntitySet="ResourcePermission" />
           </AssociationSet>
+          <AssociationSet Name="FK_RolesPremmision_Permissions" Association="Self.FK_RolesPremmision_Permissions">
+            <End Role="Permissions" EntitySet="Permissions" />
+            <End Role="RolesPremmision" EntitySet="RolesPremmision" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RolesPremmision_Role" Association="Self.FK_RolesPremmision_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="RolesPremmision" EntitySet="RolesPremmision" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SourceDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -153,6 +203,7 @@
           <Property Name="permissionsCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="permissionsType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Resources" Relationship="Self.ResourcePermission" FromRole="Permissions" ToRole="Resources" />
+          <NavigationProperty Name="Roles" Relationship="Self.RolesPremmision" FromRole="Permissions" ToRole="Role" />
         </EntityType>
         <EntityType Name="Resource">
           <Key>
@@ -170,6 +221,14 @@
           <NavigationProperty Name="Categories" Relationship="Self.ResourceCategory" FromRole="Resources" ToRole="Categories" />
           <NavigationProperty Name="Permissions" Relationship="Self.ResourcePermission" FromRole="Resources" ToRole="Permissions" />
         </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="roleCode" />
+          </Key>
+          <Property Name="roleCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="roleType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Permissions" Relationship="Self.RolesPremmision" FromRole="Role" ToRole="Permissions" />
+        </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="userCode" />
@@ -178,7 +237,7 @@
           <Property Name="userName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="permissionCode" Type="Int32" />
+          <Property Name="roleCode" Type="Int32" />
           <Property Name="year" Type="DateTime" Precision="0" />
         </EntityType>
         <Association Name="ResourceCategory">
@@ -189,10 +248,15 @@
           <End Role="Permissions" Type="Self.Permission" Multiplicity="*" />
           <End Role="Resources" Type="Self.Resource" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="SourceDataEntities" annotation:LazyLoadingEnabled="true">
+        <Association Name="RolesPremmision">
+          <End Role="Permissions" Type="Self.Permission" Multiplicity="*" />
+          <End Role="Role" Type="Self.Role" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="SourceDataEntities2" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Categories" EntityType="Self.Category" />
           <EntitySet Name="Permissions" EntityType="Self.Permission" />
           <EntitySet Name="Resources" EntityType="Self.Resource" />
+          <EntitySet Name="Roles" EntityType="Self.Role" />
           <EntitySet Name="Users" EntityType="Self.User" />
           <AssociationSet Name="ResourceCategory" Association="Self.ResourceCategory">
             <End Role="Categories" EntitySet="Categories" />
@@ -202,13 +266,17 @@
             <End Role="Permissions" EntitySet="Permissions" />
             <End Role="Resources" EntitySet="Resources" />
           </AssociationSet>
+          <AssociationSet Name="RolesPremmision" Association="Self.RolesPremmision">
+            <End Role="Permissions" EntitySet="Permissions" />
+            <End Role="Role" EntitySet="Roles" />
+          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="SourceDataModelStoreContainer" CdmEntityContainer="SourceDataEntities">
+        <EntityContainerMapping StorageEntityContainer="SourceDataModelStoreContainer" CdmEntityContainer="SourceDataEntities2">
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="SourceDataModel.Category">
               <MappingFragment StoreEntitySet="Categories">
@@ -241,6 +309,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="SourceDataModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="roleCode" ColumnName="roleCode" />
+                <ScalarProperty Name="roleType" ColumnName="roleType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="SourceDataModel.User">
               <MappingFragment StoreEntitySet="Users">
@@ -248,7 +324,7 @@
                 <ScalarProperty Name="userName" ColumnName="userName" />
                 <ScalarProperty Name="password" ColumnName="password" />
                 <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="permissionCode" ColumnName="permissionCode" />
+                <ScalarProperty Name="roleCode" ColumnName="roleCode" />
                 <ScalarProperty Name="year" ColumnName="year" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -267,6 +343,14 @@
             </EndProperty>
             <EndProperty Name="Resources">
               <ScalarProperty Name="resourceCode" ColumnName="ResouceCode" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="RolesPremmision" TypeName="SourceDataModel.RolesPremmision" StoreEntitySet="RolesPremmision">
+            <EndProperty Name="Permissions">
+              <ScalarProperty Name="permissionsCode" ColumnName="premmisionId" />
+            </EndProperty>
+            <EndProperty Name="Role">
+              <ScalarProperty Name="roleCode" ColumnName="roleId" />
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>
