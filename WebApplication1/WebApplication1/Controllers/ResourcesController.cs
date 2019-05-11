@@ -14,6 +14,7 @@ using WordToPDF;
 using WebApplication1.Models;
 using GemBox.Document;
 using Spire.Xls;
+using Microsoft.Office.Interop.Word;
 
 namespace WebApplication1.Controllers
 {
@@ -55,12 +56,15 @@ namespace WebApplication1.Controllers
             {
                
                 string ChangeExtension = resources.filePath.Replace(FileExtension, ".pdf");
-                Workbook workbook = new Workbook();
-                workbook.LoadFromFile(resources.filePath);
+                //Workbook workbook = new Workbook();
+                //workbook.LoadFromFile(resources.filePath);
 
                 //Save the document in PDF format
 
-                workbook.SaveToFile(ChangeExtension, Spire.Xls.FileFormat.PDF);
+               // workbook.SaveToFile(ChangeExtension, Spire.Xls.FileFormat.PDF);
+
+                SautinSoft.ExcelToPdf x = new SautinSoft.ExcelToPdf();
+                x.ConvertFile(resources.filePath, ChangeExtension);
                 Bytes = File.ReadAllBytes(ChangeExtension);
                 File.Delete(ChangeExtension);
                 FileExtension = ".pdf";
@@ -68,6 +72,25 @@ namespace WebApplication1.Controllers
             resourcesPathShow.TypeFile = FileExtension;
             resourcesPathShow.ContentBase64 = Convert.ToBase64String(Bytes);
             return resourcesPathShow;
+        }
+
+        [HttpGet]
+        [Route("api/openResource/{idResources}")]
+        public bool OpenResource(int idResources)
+        {
+            var resources = db.Resources.Find(idResources);
+            string FileExtension = Path.GetExtension(resources.filePath);
+            //if (FileExtension == ".doc" || FileExtension == ".docx")
+            //{
+            //    Application ap = new Application();
+            //    Document document = ap.Documents.Open(@"C:\Test\NewDocument.docx");
+            //}
+            //if (FileExtension == ".xlsx" || FileExtension == ".csv")
+            //{
+            //    System.Diagnostics.Process.Start(resources.filePath);
+            //}
+            System.Diagnostics.Process.Start(resources.filePath);
+            return true;
         }
 
 
@@ -157,7 +180,7 @@ namespace WebApplication1.Controllers
                 resource.Permissions.Add(db.Permissions.Find(item));
             }
            var numCat= resource.Categories.ToList().Select(p => p.CategoryId);
-            resource.Categories = new List<Category>();
+            resource.Categories = new List<Models.Category>();
             foreach (var item in numCat)
             {
                 resource.Categories.Add(db.Categories.Find(item));

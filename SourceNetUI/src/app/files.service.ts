@@ -12,6 +12,7 @@ const url = "http://localhost:13264/"
 export class FilesService {
 
     url_file: any;
+    resourceDetails: any;
 
     constructor(public httpClient: HttpClient) { }
 
@@ -40,19 +41,20 @@ export class FilesService {
         return this.httpClient.get(url + "api/Categories");
     }
 
-    getContentFile(id)
-    {
-       return this.httpClient.get(url+'api/getDataFile/'+id);
+    getContentFile(id) {
+        return this.httpClient.get(url + 'api/getDataFile/' + id);
     }
 
-    login()
-    {
+    openResource(resourceCode: number) {
+        return this.httpClient.get(url + 'api/openResource/' + resourceCode);
+    }
+
+    login() {
 
     }
 
-    addUser()
-    {
-        
+    addUser() {
+
     }
 
 }

@@ -19,6 +19,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {NgbModalModule, NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
 import { NgxSmartModalModule } from 'ngx-smart-modal';
 import { HeaderComponent } from './header/header.component';
+import { ResourcesDetailComponent } from './resources-detail/resources-detail.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
    declarations: [
@@ -31,7 +33,8 @@ import { HeaderComponent } from './header/header.component';
       UploadComponent,
       AddUserComponent,
       LogInComponent,
-      HeaderComponent
+      HeaderComponent,
+      ResourcesDetailComponent
    ],
    imports: [
       BrowserModule,
@@ -43,10 +46,10 @@ import { HeaderComponent } from './header/header.component';
       TreeviewModule.forRoot(),
       NgbModule.forRoot(),
       NgbModalModule,
-      NgxSmartModalModule.forRoot()
+      NgxSmartModalModule.forRoot(),
+      NgxSpinnerModule
    ],
-   entryComponents: [
-   ],
+   entryComponents: [],
    providers: [],
    bootstrap: [
       AppComponent
