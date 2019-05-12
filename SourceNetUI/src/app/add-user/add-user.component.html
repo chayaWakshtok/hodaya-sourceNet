@@ -18,7 +18,7 @@
       <div class="form-group row">
         <label for="email" class="col-sm-2">הרשאות</label>
         <select name="select" [(ngModel)]="newUser.roleCode">
-          <option *ngFor="let role of roles" [value]="roleCode">{{role.roleType}}</option>
+          <option *ngFor="let role of roles" [ngValue]="role.roleCode">{{role.roleType}}</option>
         </select>
     </div>
 

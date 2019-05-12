@@ -21,6 +21,9 @@ import { NgxSmartModalModule } from 'ngx-smart-modal';
 import { HeaderComponent } from './header/header.component';
 import { ResourcesDetailComponent } from './resources-detail/resources-detail.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
    declarations: [
@@ -47,7 +50,9 @@ import { NgxSpinnerModule } from 'ngx-spinner';
       NgbModule.forRoot(),
       NgbModalModule,
       NgxSmartModalModule.forRoot(),
-      NgxSpinnerModule
+      NgxSpinnerModule,
+      ToastrModule.forRoot(),
+      BrowserAnimationsModule
    ],
    entryComponents: [],
    providers: [],

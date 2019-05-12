@@ -121,3 +121,4 @@ C:\Users\User\Documents\חיה\hodaya-sourceNet\WebApplication1\WebApplication1\
 C:\Users\User\Documents\חיה\hodaya-sourceNet\WebApplication1\WebApplication1\bin\Spire.XLS.xml
 C:\Users\User\Documents\חיה\hodaya-sourceNet\WebApplication1\WebApplication1\bin\SautinSoft.ExcelToPdf.dll
 C:\Users\User\Documents\חיה\hodaya-sourceNet\WebApplication1\WebApplication1\bin\SautinSoft.ExcelToPdf.xml
+C:\Users\User\Documents\חיה\hodaya-sourceNet\WebApplication1\WebApplication1\obj\Debug\SourceFillesAPI.csprojResolveAssemblyReference.cache
