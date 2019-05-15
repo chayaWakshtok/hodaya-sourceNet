@@ -33,12 +33,13 @@
     </div>
 
     <div class=" buttons">
-      <button *ngIf="viewPremission" type="button" class="btn col-sm-2" (click)="show()">צפיה</button>
       <button type="button" *ngIf="writePremission" (click)="openResource()" class="btn col-sm-2">עריכה</button>
-      <button type="button" *ngIf="donloadPremission" class="btn col-sm-2">הורדה</button>
+      <button type="button" *ngIf="donloadPremission" class="btn col-sm-2" (click)="donloadFile()"><a [href]="donloadSrc" download="{{SingelFile.resourceName}}">הורדה</a></button>
     </div>
   </form>
-  <div class="col-md-6" *ngIf="viewPremission">
-    <iframe *ngIf="iframeSrc!=''" class="col-md-12" style="background-color: aliceblue;height: 500px;" [src]="iframeSrc" ></iframe>
+  <div class="col-md-6" *ngIf="viewPremission&&url" style="width: 300px; height: 300px;">
+    <simple-pdf-viewer #pdfViewer [src]="url" (onLoadComplete)="onLoadComplete()" [removePageBorders]="true"></simple-pdf-viewer>
   </div>
+  <div class="col-md-6" *ngIf="!viewPremission">not premmision to view</div>
 </div>
+

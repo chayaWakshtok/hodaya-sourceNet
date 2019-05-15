@@ -1,0 +1,9 @@
+<div dir="rtl" >
+  <div *ngFor="let role of roles">
+    <p>{{role.roleType}}</p>
+    <div *ngFor="let pre of role.Permissions">
+      <p>{{pre.permissionsType}}</p>
+    </div>
+    <button (click)="edit(role)">edit</button>
+  </div>
+</div>

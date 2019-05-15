@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FilesService } from '../files.service';
 
 @Component({
   selector: 'app-header',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  constructor(public fileService:FilesService) { }
+
+  permissionAdmin:boolean=false;
 
   ngOnInit() {
+    this.fileService.loginSubject.subscribe((res:boolean)=>{
+      this.permissionAdmin=res;
+    })
   }
 
 }

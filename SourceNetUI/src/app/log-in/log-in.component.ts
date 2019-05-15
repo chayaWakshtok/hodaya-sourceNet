@@ -1,4 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { FilesService } from '../files.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-log-in',
@@ -7,22 +9,22 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class LogInComponent implements OnInit {
 
-  constructor() { }
+  constructor(public fileService:FilesService,
+    public router:Router) { }
 
   ngOnInit() {
   }
 
   isLogIn:number=0;//1=registered user; 2=System Administrator;
-  @Output() eLogIn: EventEmitter<any> = new EventEmitter();
+ 
 
   logIn(){
-
-    //get user premition
 
     if(true)
     {
         this.isLogIn=1;
-        this.eLogIn.emit(this.isLogIn);
+        this.fileService.loginSubject.next(true);
+        this.router.navigate(['/search'])
     }
     alert("!!!");
   }

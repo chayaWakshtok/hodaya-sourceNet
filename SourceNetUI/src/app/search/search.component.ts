@@ -4,6 +4,9 @@ import { FilesService } from '../files.service';
 import { NgxSmartModalService } from 'ngx-smart-modal';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { SpinnerVisibilityService, Spinkit } from 'ng-http-loader';
+
 
 @Component({
   selector: 'app-search',
@@ -11,19 +14,21 @@ import { Router } from '@angular/router';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
-
+  public spinkit = Spinkit;
   urlFile: any;
   resource: Resource[]=[];
   resourceFillter: Resource[]=[];
 
   constructor(public fileSevice: FilesService, public sanitizer: DomSanitizer,
-     public ngxSmartModalService: NgxSmartModalService,public router:Router) { }
+     public ngxSmartModalService: NgxSmartModalService,public router:Router,
+     private spinner: SpinnerVisibilityService) { }
 
   ngOnInit() {
-
+    this.spinner.show();
     this.fileSevice.getAllResource().subscribe(res => {
       this.resource = res;
       this.resourceFillter = res;
+      this.spinner.hide();
     })
   }
   selectSearchBydate: boolean = false;

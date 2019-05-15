@@ -41,6 +41,7 @@
     <Property Name="roleCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="roleType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Permissions" Relationship="Self.RolesPremmision" FromRole="Role" ToRole="Permissions" />
+    <NavigationProperty Name="Users" Relationship="SourceDataModel.FK_Users_Role" FromRole="Role" ToRole="User" />
   </EntityType>
   <EntityType Name="User">
     <Key>
@@ -52,6 +53,7 @@
     <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="roleCode" Type="Int32" />
     <Property Name="year" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Role" Relationship="SourceDataModel.FK_Users_Role" FromRole="User" ToRole="Role" />
   </EntityType>
   <Association Name="ResourceCategory">
     <End Role="Categories" Type="Self.Category" Multiplicity="*" />
@@ -83,5 +85,21 @@
       <End Role="Permissions" EntitySet="Permissions" />
       <End Role="Role" EntitySet="Roles" />
     </AssociationSet>
+    <AssociationSet Name="FK_Users_Role" Association="SourceDataModel.FK_Users_Role">
+      <End Role="Role" EntitySet="Roles" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
   </EntityContainer>
+  <Association Name="FK_Users_Role">
+    <End Type="SourceDataModel.Role" Role="Role" Multiplicity="0..1" />
+    <End Type="SourceDataModel.User" Role="User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="roleCode" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="roleCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

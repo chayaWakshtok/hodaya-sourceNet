@@ -23,7 +23,10 @@ import { ResourcesDetailComponent } from './resources-detail/resources-detail.co
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { RoleComponent } from './role/role.component';
+import { FilesService } from './files.service';
+import { SimplePdfViewerModule } from 'simple-pdf-viewer';
+import { NgHttpLoaderModule } from 'ng-http-loader';
 
 @NgModule({
    declarations: [
@@ -37,7 +40,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       AddUserComponent,
       LogInComponent,
       HeaderComponent,
-      ResourcesDetailComponent
+      ResourcesDetailComponent,
+      RoleComponent
    ],
    imports: [
       BrowserModule,
@@ -52,10 +56,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       NgxSmartModalModule.forRoot(),
       NgxSpinnerModule,
       ToastrModule.forRoot(),
-      BrowserAnimationsModule
+      BrowserAnimationsModule,
+      SimplePdfViewerModule,
+      NgHttpLoaderModule.forRoot(),
+
    ],
    entryComponents: [],
-   providers: [],
+   providers: [FilesService],
    bootstrap: [
       AppComponent
    ]

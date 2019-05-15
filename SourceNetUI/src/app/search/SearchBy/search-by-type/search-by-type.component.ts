@@ -10,8 +10,20 @@ export class SearchByTypeComponent implements OnInit {
   types:any=[];
   constructor() { }
   search: any = [];
+  public filesExtensions = {
+
+    'pdf': 'application/pdf',
+    'jpg': 'image/jpeg',
+    'jpeg': 'image/jpeg',
+    'docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'png': 'image/png',
+    'xml': 'application/xml',
+    'doc': 'application/msword',
+    'csv': 'text/csv',
+    'txt': 'text/plain'
+  }
   ngOnInit() {
-    this.types=["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","txt","word","ts"];
+    this.types=["pdf","jpg","jpeg","docx","png","xml","doc","csv","txt"];
   }
 
   @Output() removeSearchByType: EventEmitter<any> = new EventEmitter();
@@ -22,7 +34,7 @@ export class SearchByTypeComponent implements OnInit {
   }
 
   searchType() {
-    this.searchByType.emit(this.search);
+    this.searchByType.emit(this.filesExtensions[this.search]);
   }
 
 }

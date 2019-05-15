@@ -18,6 +18,7 @@ namespace WebApplication1.Models
         public Role()
         {
             this.Permissions = new HashSet<Permission>();
+            this.Users = new HashSet<User>();
         }
     
         public int roleCode { get; set; }
@@ -25,5 +26,7 @@ namespace WebApplication1.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Permission> Permissions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<User> Users { get; set; }
     }
 }

@@ -13,6 +13,7 @@
         <AssociationConnector Association="SourceDataModel.ResourceCategory" ManuallyRouted="false" />
         <AssociationConnector Association="SourceDataModel.ResourcePermission" ManuallyRouted="false" />
         <AssociationConnector Association="SourceDataModel.RolesPremmision" ManuallyRouted="false" />
+        <AssociationConnector Association="SourceDataModel.FK_Users_Role" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

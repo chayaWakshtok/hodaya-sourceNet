@@ -20,5 +20,7 @@ namespace WebApplication1.Models
         public string email { get; set; }
         public Nullable<int> roleCode { get; set; }
         public Nullable<System.DateTime> year { get; set; }
+    
+        public virtual Role Role { get; set; }
     }
 }

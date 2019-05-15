@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { TreeviewItem } from 'ngx-treeview';
 import { Resource } from './shared/resource';
+import { Role } from './shared/role';
+import { User } from './shared/user';
 
 
 const url = "http://localhost:13264/"
@@ -11,8 +13,10 @@ const url = "http://localhost:13264/"
 })
 export class FilesService {
 
+    user:User=null;
     url_file: any;
     resourceDetails: any;
+    loginSubject=new Subject();
 
     constructor(public httpClient: HttpClient) { }
 
@@ -53,12 +57,20 @@ export class FilesService {
         return this.httpClient.get(url + 'api/Roles');
     }
 
+    getPremmisions() {
+        return this.httpClient.get(url + 'api/Roles');
+    }
+
     login() {
 
     }
 
+    updateRole(role: Role) {
+        return this.httpClient.put(url + 'api/Roles/' + role.roleCode, role);
+    }
+
     addUser(user) {
-        return this.httpClient.post(url + 'api/Users',user);
+        return this.httpClient.post(url + 'api/Users', user);
     }
 
 }

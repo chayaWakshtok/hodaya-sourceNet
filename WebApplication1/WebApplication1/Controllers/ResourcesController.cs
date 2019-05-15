@@ -22,6 +22,7 @@ namespace WebApplication1.Controllers
     {
         public string TypeFile { get; set; }
         public string ContentBase64 { get; set; }
+        public string TargetContent { get; set; }
 
     }
     public class ResourcesController : ApiController
@@ -71,6 +72,8 @@ namespace WebApplication1.Controllers
             }
             resourcesPathShow.TypeFile = FileExtension;
             resourcesPathShow.ContentBase64 = Convert.ToBase64String(Bytes);
+            Bytes = File.ReadAllBytes(resources.filePath);
+            resourcesPathShow.TargetContent = Convert.ToBase64String(Bytes);
             return resourcesPathShow;
         }
 
@@ -80,15 +83,6 @@ namespace WebApplication1.Controllers
         {
             var resources = db.Resources.Find(idResources);
             string FileExtension = Path.GetExtension(resources.filePath);
-            //if (FileExtension == ".doc" || FileExtension == ".docx")
-            //{
-            //    Application ap = new Application();
-            //    Document document = ap.Documents.Open(@"C:\Test\NewDocument.docx");
-            //}
-            //if (FileExtension == ".xlsx" || FileExtension == ".csv")
-            //{
-            //    System.Diagnostics.Process.Start(resources.filePath);
-            //}
             System.Diagnostics.Process.Start(resources.filePath);
             return true;
         }

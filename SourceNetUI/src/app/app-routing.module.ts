@@ -4,15 +4,19 @@ import { SearchComponent } from './search/search.component';
 import { UploadComponent } from './upload/upload.component';
 import { AddUserComponent } from './add-user/add-user.component';
 import { ResourcesDetailComponent } from './resources-detail/resources-detail.component';
+import { RoleComponent } from './role/role.component';
+import { LogInComponent } from './log-in/log-in.component';
 
 
 
 const routes: Routes = [
-  { path: "", redirectTo: "search", pathMatch: "full" },
+  { path: "", redirectTo: "login", pathMatch: "full" },
   { path: 'search', component: SearchComponent },
   { path: 'resources-detail', component: ResourcesDetailComponent },
   { path: 'upload', component: UploadComponent },
   { path: 'addUser', component: AddUserComponent },
+  { path: 'roles', component: RoleComponent },
+  { path: 'login', component: LogInComponent }
 ];
 
 @NgModule({

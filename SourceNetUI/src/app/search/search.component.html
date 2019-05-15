@@ -19,7 +19,8 @@
       </div>
 
       <div dir="rtl" class="row">
-        <div *ngIf="resourceFillter.length>0">
+        
+        <div *ngIf="resourceFillter.length==0">
           <h5>no data</h5>
         </div>
         <div *ngFor="let res of resourceFillter" class="file">
@@ -55,4 +56,5 @@
       </div>
     </form>
 </div>
+
 

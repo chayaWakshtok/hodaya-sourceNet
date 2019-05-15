@@ -5,5 +5,6 @@ export class User {
     email:string;
     roleCode:number;
     year:Date=new Date();
+    
 }
 
