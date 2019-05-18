@@ -14,8 +14,8 @@ namespace WebApplication1
             // Web API configuration and services
             var cors = new EnableCorsAttribute("*", "*", "*");
             config.EnableCors(cors);
-            config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling
-= Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+//            config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling
+//= Newtonsoft.Json.ReferenceLoopHandling.Ignore;
               GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings
             .ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             GlobalConfiguration.Configuration.Formatters

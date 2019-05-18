@@ -36,7 +36,7 @@ export class UploadComponent implements OnInit {
       // this.fileService.uploadFile(file).subscribe(res=>{
         
       // });
-      //this.recorceFile.filePath= files[i].;
+     // this.recorceFile.filePath="";
       this.recorceFile.resourceName=files[i].name;
       this.recorceFile.type=files[i].type;
       this.recorceFile.sizeB=files[i].size;

@@ -1,19 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { FilesService } from '../files.service';
-import { User } from '../shared/user';
+import { Component, OnInit, Input } from '@angular/core'
 import { ToastrService } from 'ngx-toastr';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-
-
+import { FilesService } from '../files.service';
+import { User } from '../shared/user';
 @Component({
-  selector: 'app-add-user',
-  templateUrl: './add-user.component.html',
-  styleUrls: ['./add-user.component.css']
+  selector: 'app-edit-user',
+  templateUrl: './edit-user.component.html',
+  styleUrls: ['./edit-user.component.css']
 })
-export class AddUserComponent implements OnInit {
+export class EditUserComponent implements OnInit {
 
+  
   roles: any = [];
-  newUser: User = new User();
+  @Input() newUser: User;
 
   constructor(public fileService: FilesService, private toastr: ToastrService, private activeModal:NgbActiveModal) { }
 
@@ -24,8 +23,8 @@ export class AddUserComponent implements OnInit {
   }
 
    submitForm() {
-    this.fileService.addUser(this.newUser).subscribe(res => {
-      this.toastr.success('success to add user');
+    this.fileService.updateUser(this.newUser).subscribe(res => {
+      this.toastr.success('success to update user');
       this.activeModal.close(this.newUser);
     },err=>{
       this.activeModal.close({});

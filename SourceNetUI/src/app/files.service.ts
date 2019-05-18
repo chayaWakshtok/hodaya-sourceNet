@@ -61,8 +61,8 @@ export class FilesService {
         return this.httpClient.get(url + 'api/Roles');
     }
 
-    login() {
-
+    login(userName,password) {
+        return this.httpClient.post(url + 'api/users/login/'+userName+"/"+password ,{});
     }
 
     updateRole(role: Role) {
@@ -72,5 +72,16 @@ export class FilesService {
     addUser(user) {
         return this.httpClient.post(url + 'api/Users', user);
     }
+    updateUser(user:User) {
+        return this.httpClient.put(url + 'api/Users/'+user.userCode, user);
+    }
+    getUsers(){
+        return this.httpClient.get(url+"api/Users");
+    }
 
+    deleteUser(user:User)
+    {
+        return this.httpClient.delete(url + 'api/Users/'+user.userCode);
+    }
+    
 }

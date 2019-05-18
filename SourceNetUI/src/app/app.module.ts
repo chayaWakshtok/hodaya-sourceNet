@@ -27,6 +27,9 @@ import { RoleComponent } from './role/role.component';
 import { FilesService } from './files.service';
 import { SimplePdfViewerModule } from 'simple-pdf-viewer';
 import { NgHttpLoaderModule } from 'ng-http-loader';
+import { UserComponent } from './user/user.component';
+import { EditUserComponent } from './edit-user/edit-user.component';
+import { DeleteUserComponent } from './delete-user/delete-user.component';
 
 @NgModule({
    declarations: [
@@ -41,7 +44,10 @@ import { NgHttpLoaderModule } from 'ng-http-loader';
       LogInComponent,
       HeaderComponent,
       ResourcesDetailComponent,
-      RoleComponent
+      RoleComponent,
+      UserComponent,
+      EditUserComponent,
+      DeleteUserComponent
    ],
    imports: [
       BrowserModule,
@@ -58,11 +64,14 @@ import { NgHttpLoaderModule } from 'ng-http-loader';
       ToastrModule.forRoot(),
       BrowserAnimationsModule,
       SimplePdfViewerModule,
-      NgHttpLoaderModule.forRoot(),
-
+      NgHttpLoaderModule.forRoot()
    ],
-   entryComponents: [],
-   providers: [FilesService],
+   entryComponents: [
+      AddUserComponent,EditUserComponent
+   ],
+   providers: [
+      FilesService
+   ],
    bootstrap: [
       AppComponent
    ]

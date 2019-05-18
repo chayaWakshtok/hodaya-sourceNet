@@ -1,3 +1,5 @@
+import { Role } from './role';
+
 export class User {
     userCode:number;
     userName:string;
@@ -5,6 +7,6 @@ export class User {
     email:string;
     roleCode:number;
     year:Date=new Date();
-    
+    Role:Role;
 }
 

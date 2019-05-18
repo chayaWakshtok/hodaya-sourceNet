@@ -1,4 +1,4 @@
-.container{
+/* .container{
     background-color: rgba(26, 25, 24, 0.952);
     margin:50px auto;
     width: 1100px;
@@ -6,7 +6,7 @@
     border-radius: 15px;
     padding: 20px;
     
-}
+} */
 .btn{
     background-color:#d86d16;
 }
@@ -14,6 +14,4 @@
 label{
     color: #d86d16;
     font-size: 12pt;
-    /*padding-top: 5px;
-    direction: rtl;*/
 }

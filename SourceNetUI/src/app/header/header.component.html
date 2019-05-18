@@ -1,18 +1,21 @@
 <nav dir="rtl" class="navbar navbar-expand-sm navbar-light bg-light navbar-dark bg-dark">
-    <a class="glyphicon glyphicon-user" [routerLink]="['login']" style="font-size:26px; color:chocolate;"></a>
-   
+    <!-- <a class="glyphicon glyphicon-user" ></a> -->
+   <li class='fas fa-user-alt' style='font-size:24px' [routerLink]="['login']" style="font-size:26px; color:chocolate;"></li>
     <div  class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
           <a class="nav-link" [routerLink]="['search']" >חיפוש</a>
         </li>
-        <li class="nav-item">
+        <li *ngIf="addFile" class="nav-item">
           <a class="nav-link" [routerLink]="['upload']">העלאה</a>
         </li>
-        <li class="nav-item">
+        <li *ngIf="addUser" class="nav-item">
           <a class="nav-link" [routerLink]="['addUser']" >הוספת משתמש</a>
         </li>
-        <li *ngIf="permissionAdmin" class="nav-item">
+        <li *ngIf="addUser" class="nav-item">
+          <a class="nav-link" [routerLink]="['users']" >הוספת משתמש</a>
+        </li>
+        <li *ngIf="permission" class="nav-item">
           <a class="nav-link" [routerLink]="['roles']" > הרשאות</a>
         </li>
       </ul>

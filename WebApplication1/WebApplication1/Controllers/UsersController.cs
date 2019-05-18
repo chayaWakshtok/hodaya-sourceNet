@@ -49,7 +49,11 @@ namespace WebApplication1.Controllers
                 return BadRequest();
             }
 
-            db.Entry(user).State = EntityState.Modified;
+            var userEdit=db.Users.Find(user.userCode);
+            userEdit.userName = user.userName;
+            userEdit.password = user.password;
+            userEdit.email = user.email;
+         //   db.Entry(user).State = EntityState.Modified;
 
             try
             {
@@ -83,6 +87,23 @@ namespace WebApplication1.Controllers
             db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = user.userCode }, user);
+        }
+        [HttpGet]
+        [Route("api/users/login/{username}/{password}")]
+        public User Login(string username,string password)
+        {
+            if (db.Users.FirstOrDefault(p => p.password == password && p.userName == username) != null)
+            {
+               var user= db.Users.First(p => p.password == password && p.userName == username);
+                var permission = user.Role.Permissions.Select(p=>new Permission() { permissionsCode=p.permissionsCode,
+                permissionsType=p.permissionsType}).ToList();
+                user.Role.Permissions = permission;
+                var newUser = new User() {email=user.email,password=user.password,roleCode=user.roleCode,userCode=user.userCode
+                ,userName=user.userName,year=user.year,Role=user.Role};
+                return newUser;
+            }
+                
+            else return null;
         }
 
         // DELETE: api/Users/5
