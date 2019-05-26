@@ -17,5 +17,20 @@ uploadFileResource(file: File,res): any {
   let apiUrl1 = url + "api/UploadFile";
   return this.httpClient.post(apiUrl1, formData)
 }
-
+replace(file: File,res): any {
+  let formData: FormData = new FormData();
+  formData.append('uploadFile', file, file.name);
+  formData.append('res',JSON.stringify( res));
+  let headers = new Headers() 
+  let apiUrl1 = url + "api/ReplaceFile";
+  return this.httpClient.post(apiUrl1, formData)
+}
+same(file: File,res): any {
+  let formData: FormData = new FormData();
+  formData.append('uploadFile', file, file.name);
+  formData.append('res',JSON.stringify( res));
+  let headers = new Headers() 
+  let apiUrl1 = url + "api/AcceptSameFile";
+  return this.httpClient.post(apiUrl1, formData)
+}
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Resource } from '../shared/resource';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-modal-same-file',
@@ -9,9 +10,14 @@ import { Resource } from '../shared/resource';
 export class ModalSameFileComponent implements OnInit {
 
   @Input() sameResource:Resource ;
-  constructor() { }
+  constructor(  public activeModal: NgbActiveModal
+    ) { }
 
   ngOnInit() {
+  }
+
+  closeModal() {
+    this.activeModal.close();
   }
 
 }

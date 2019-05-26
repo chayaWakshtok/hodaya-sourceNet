@@ -50,7 +50,6 @@ export class UploadComponent implements OnInit {
   }
 
   handleFileInput(files: any) {
-    debugger;
     for (var i = 0; i < files.length; i++) {
 
       this.file = files[i];
@@ -61,120 +60,78 @@ export class UploadComponent implements OnInit {
     }
   }
 
-  selectPermission(value: string) {
+  replaceFile()
+  {
+
+    debugger;
+    this.uploadService.replace(this.file, this.recorceFile).subscribe(res => {
+      this.toastrService.success("העלאת הקובץ הצליחה");
+      this.router.navigate(['/search']);
+    },err=>{
+      this.toastrService.error("העלאת הקובץ נכשלה")
+    });
   }
 
-  // uploadFile() {
-
-
-  //   this.fileService.uploadFile(this.file).subscribe(res => {
-  //     this.recorceFile.filePath = res;
-  //     debugger;
-  //     var clist = this.recorceFile.Categories.map(p => p.CategoryId);
-  //     var plist = this.recorceFile.Permissions.map(p => p.permissionsCode);
-  //     var catlist: Category[] = [];
-  //     clist.forEach(p => {
-  //       var cat = new Category();
-  //       cat.CategoryId = p;
-  //       catlist.push(cat);
-  //     })
-  //     this.recorceFile.Categories = catlist;
-
-  //     var perlist: Permission[] = [];
-  //     plist.forEach(p => {
-  //       var cat = new Permission();
-  //       cat.permissionsCode = p;
-  //       perlist.push(cat);
-  //     })
-  //     this.recorceFile.Permissions = perlist
-  //     this.uploadService.upload(this.recorceFile).subscribe(res1 => {
-  //       this.toastrService.success("העלאת הקובץ הצליחה");
-  //       this.router.navigate(['/search']);
-  //     }, err => {
-  //       this.toastrService.error("העלאת הקובץ נכשלה");
-  //       this.fileService.deleteFile(this.recorceFile.resourceName).subscribe(res => { })
-  //     })
-  //   }, er => {
-  //     swal("הקובץ קיים במאגר", 
-  //     // { buttons: {
-  //     //   "":"",
-  //     //     cancel: "ביטול!",
-  //     //     catch: {
-  //     //       text: "החלף!",
-  //     //       value: "catch",
-  //     //     },
-  //     //     defeat: "השאר את שתיהם",
-  //     //   },
-  //     //}
-  //     )
-  //     .then((value) => {
-  //       switch (value) {
-
-  //         case "defeat":
-  //           {
-  //             this.file.name="(1)"+this.file.name;
-  //             this.uploadFile(); 
-  //              break;
-  //           }
-  //         case "catch":
-  //           {     
-  //           this.replace();
-  //           break;
-  //           }
-
-
-  //         default:
-  //           swal("בוטל!");
-  //       }
-  //     });
-
-  //     console.log(er);
-  //   });
-
-  // }
-
-  // replace()
-  // {
-  //   this.fileService.replaceFile(this.file).subscribe(res => {
-  //     this.recorceFile.filePath = res;
-  //     debugger;
-  //     var clist = this.recorceFile.Categories.map(p => p.CategoryId);
-  //     var plist = this.recorceFile.Permissions.map(p => p.permissionsCode);
-  //     var catlist: Category[] = [];
-  //     clist.forEach(p => {
-  //       var cat = new Category();
-  //       cat.CategoryId = p;
-  //       catlist.push(cat);
-  //     })
-  //     this.recorceFile.Categories = catlist;
-
-  //     var perlist: Permission[] = [];
-  //     plist.forEach(p => {
-  //       var cat = new Permission();
-  //       cat.permissionsCode = p;
-  //       perlist.push(cat);
-  //     })
-  //     this.recorceFile.Permissions = perlist
-  //     this.uploadService.upload(this.recorceFile).subscribe(res1 => {
-  //       this.toastrService.success("העלאת הקובץ הצליחה");
-  //       this.router.navigate(['/search']);
-  //     }, err => {
-  //       this.toastrService.error("העלאת הקובץ נכשלה");
-  //       this.fileService.deleteFile(this.recorceFile.resourceName).subscribe(res => { })
-  //     })
-  //   }, er => {
-  //     this.toastrService.error("העלאת הקובץ נכשלה");
-  //   });
-
-  // }
+  stayTwoFile(name)
+  {
+    let ex= this.recorceFile.resourceName.split(".")[1]
+    this.recorceFile.resourceName=name+"."+ex;
+    this.uploadService.same(this.file, this.recorceFile).subscribe(res => {
+      this.toastrService.success("העלאת הקובץ הצליחה");
+      this.router.navigate(['/search']);
+    },err=>{
+      this.toastrService.error("העלאת הקובץ נכשלה")
+    });
+  }
+ 
 
   uploadFile11() {
     this.uploadService.uploadFileResource(this.file, this.recorceFile).subscribe(res => {
       this.toastrService.success("העלאת הקובץ הצליחה");
       this.router.navigate(['/search']);
     }, err => {
-      this.toastrService.error("העלאת הקובץ נכשלה");
-    })
+      swal("קובץ בעל שם כזה קים במאגר", {
+        buttons: {
+          cancel: "ביטול!",
+          catch: {
+            text: "החלף",
+            value: "catch",
+          },
+          defeat: {
+            text:"השאר את שתיהם!",
+            value:"change"
+          },
+        },
+      })
+      .then((value) => {
+        switch (value) {
+       
+          case "change":
+              swal({
+                text: 'הכנס שם קובץ',
+                content: "input",
+                button: {
+                  text: "בצע!",
+                  closeModal: false,
+                },
+              })
+              .then(name => {
+                if (!name) throw null;
+                 this.stayTwoFile(name);
+                
+              })
+         
+            break;
+       
+          case "catch":
+           this.replaceFile();
+            break;
+       
+          default:
+            swal("העלאה בוטלה!");
+            this.router.navigate(['search']);
+        }
+      });    })
   }
 }
 

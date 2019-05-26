@@ -247,7 +247,7 @@ namespace WebApplication1.Controllers
 
                 foreach (MultipartFileData file in provider.FileData)
                 {
-                    var fileName = file.Headers.ContentDisposition.FileName.Replace("\"", string.Empty)+"(1)";
+                    var fileName ="(1)"+ file.Headers.ContentDisposition.FileName.Replace("\"", string.Empty);
                     byte[] documentData = File.ReadAllBytes(file.LocalFileName);
                     if (Directory.GetFiles(filesDir, fileName).Length == 0)
                     {

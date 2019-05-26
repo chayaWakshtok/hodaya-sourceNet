@@ -74,7 +74,8 @@ import { ModalSameFileComponent } from './modal-same-file/modal-same-file.compon
    ],
    entryComponents: [
       AddUserComponent,
-      EditUserComponent
+      EditUserComponent,
+      ModalSameFileComponent
    ],
    providers: [
       FilesService,
