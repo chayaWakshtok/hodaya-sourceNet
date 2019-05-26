@@ -27,9 +27,7 @@ edit(user)
   const modalRef = this.modalService.open(EditUserComponent);
   modalRef.componentInstance.newUser=user;
   modalRef.result.then((result) => {
-    debugger;
-    var index = this.allUsers.indexOf(user);
-   this.allUsers[index]=result;
+   this.allUsers=result;
     console.log(result);
   }).catch((error) => {
     console.log(error);

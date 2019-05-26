@@ -19,7 +19,18 @@ namespace WebApplication1.Controllers
         // GET: api/Permissions
         public IQueryable<Permission> GetPermissions()
         {
-            return db.Permissions;
+            db.Configuration.LazyLoadingEnabled = false;
+            db.Configuration.ProxyCreationEnabled = false;
+            return db.Permissions.AsNoTracking();
+        }
+
+        [HttpGet]
+        [Route("api/permission/getPermissionResource")]
+        public List<Permission> GetPermissionsFiles()
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            db.Configuration.ProxyCreationEnabled = false;
+            return db.Permissions.Where(p=>p.permissionsCode<=5).AsNoTracking().ToList();
         }
 
         // GET: api/Permissions/5

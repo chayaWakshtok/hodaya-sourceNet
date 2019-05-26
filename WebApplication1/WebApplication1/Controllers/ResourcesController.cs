@@ -15,33 +15,44 @@ using GemBox.Document;
 using Spire.Xls;
 using Microsoft.Office.Interop.Word;
 using WebApplication1.Models;
+using System.Web.UI.WebControls;
+using System.Threading.Tasks;
+using System.Collections.Specialized;
+using System.Web.Http.Results;
+using Newtonsoft.Json;
 
 namespace WebApplication1.Controllers
 {
+
     public class ResourcesPathShow
     {
         public string TypeFile { get; set; }
         public string ContentBase64 { get; set; }
         public string TargetContent { get; set; }
+        public ResourceDto resource { get; set; }
 
     }
+
     public class ResourcesController : ApiController
     {
+        public const string filesDir = @"C:\Users\User\Documents\sourceFile\Files";
+
         private SourceDataEntities2 db = new SourceDataEntities2();
 
         [Route("api/getDataFile/{idResources}")]
         [HttpGet]
         public ResourcesPathShow GetDataFile(int idResources)
         {
-            byte[] Bytes=new byte[10000000];
-            ResourcesPathShow resourcesPathShow = new ResourcesPathShow();        
+            byte[] Bytes = new byte[10000000];
+            ResourcesPathShow resourcesPathShow = new ResourcesPathShow();
+
             var resources = db.Resources.Find(idResources);
             string FileExtension = Path.GetExtension(resources.filePath);
-            if (FileExtension == ".pdf"|| FileExtension == ".jpg"|| FileExtension == ".jpeg"|| FileExtension == ".png"|| FileExtension == ".txt")
+            if (FileExtension == ".pdf" || FileExtension == ".jpg" || FileExtension == ".jpeg" || FileExtension == ".png" || FileExtension == ".txt")
             {
-                 Bytes = File.ReadAllBytes(resources.filePath);
+                Bytes = File.ReadAllBytes(resources.filePath);
             }
-            if(FileExtension == ".doc" || FileExtension == ".docx")
+            if (FileExtension == ".doc" || FileExtension == ".docx")
             {
                 Word2Pdf objWorPdf = new Word2Pdf();
                 string ChangeExtension = resources.filePath.Replace(FileExtension, ".pdf");
@@ -55,15 +66,8 @@ namespace WebApplication1.Controllers
             }
             if (FileExtension == ".xlsx" || FileExtension == ".csv")
             {
-               
+
                 string ChangeExtension = resources.filePath.Replace(FileExtension, ".pdf");
-                //Workbook workbook = new Workbook();
-                //workbook.LoadFromFile(resources.filePath);
-
-                //Save the document in PDF format
-
-               // workbook.SaveToFile(ChangeExtension, Spire.Xls.FileFormat.PDF);
-
                 SautinSoft.ExcelToPdf x = new SautinSoft.ExcelToPdf();
                 x.ConvertFile(resources.filePath, ChangeExtension);
                 Bytes = File.ReadAllBytes(ChangeExtension);
@@ -74,6 +78,8 @@ namespace WebApplication1.Controllers
             resourcesPathShow.ContentBase64 = Convert.ToBase64String(Bytes);
             Bytes = File.ReadAllBytes(resources.filePath);
             resourcesPathShow.TargetContent = Convert.ToBase64String(Bytes);
+
+            resourcesPathShow.resource = ResourceDto.ConvertToDto(resources);
             return resourcesPathShow;
         }
 
@@ -87,30 +93,17 @@ namespace WebApplication1.Controllers
             return true;
         }
 
-
-        [HttpPost]
-        [Route("api/UploadJsonFile")]
-        public HttpResponseMessage UploadJsonFile()
-        {
-            HttpResponseMessage response = new HttpResponseMessage();
-            var httpRequest = HttpContext.Current.Request;
-            if (httpRequest.Files.Count > 0)
-            {
-                foreach (string file in httpRequest.Files)
-                {
-                   
-                    var postedFile = httpRequest.Files[file];
-                    var filePath = HttpContext.Current.Server.MapPath("~/UploadFile/" + postedFile.FileName);
-                    postedFile.SaveAs(filePath);
-                }
-            }
-            return response;
-        }
         // GET: api/Resources
-        public IQueryable<Resource> GetResources()
+        public List<ResourceDto> GetResources()
         {
-            return db.Resources;
+            List<ResourceDto> list = new List<ResourceDto>();
+            foreach (var item in db.Resources)
+            {
+                list.Add(ResourceDto.ConvertToDto(item));
+            }
+            return list;
         }
+
 
         // GET: api/Resources/5
         [ResponseType(typeof(Resource))]
@@ -127,7 +120,7 @@ namespace WebApplication1.Controllers
 
         // PUT: api/Resources/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutResource(int id, Resource resource)
+        public IHttpActionResult PutResource(int id, ResourceDto resource)
         {
             if (!ModelState.IsValid)
             {
@@ -139,7 +132,22 @@ namespace WebApplication1.Controllers
                 return BadRequest();
             }
 
-            db.Entry(resource).State = EntityState.Modified;
+            var resourceApp = db.Resources.Find(id);
+            var per = new List<Permission>();
+            foreach (var item in resource.Permissions)
+            {
+                per.Add(db.Permissions.First(p=>p.permissionsCode==item.permissionsCode));
+            }
+
+            var cat = new List<Models.Category>();
+            foreach (var item in resource.Categories)
+            {
+                cat.Add(db.Categories.First(p=>p.CategoryId==item.CategoryId));
+            }
+            resourceApp.Permissions = per;
+            resourceApp.Categories = cat;
+            resourceApp.authorName = resource.authorName;
+
 
             try
             {
@@ -161,30 +169,6 @@ namespace WebApplication1.Controllers
         }
 
         // POST: api/Resources
-        [ResponseType(typeof(Resource))]
-        public IHttpActionResult PostResource(Resource resource)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-           var numPer= resource.Permissions.ToList().Select(p => p.permissionsCode);
-            resource.Permissions = new List<Permission>();
-            foreach (var item in numPer)
-            {
-                resource.Permissions.Add(db.Permissions.Find(item));
-            }
-           var numCat= resource.Categories.ToList().Select(p => p.CategoryId);
-            resource.Categories = new List<Models.Category>();
-            foreach (var item in numCat)
-            {
-                resource.Categories.Add(db.Categories.Find(item));
-            }
-            db.Resources.Add(resource);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = resource.resourceCode }, resource);
-        }
 
         // DELETE: api/Resources/5
         [ResponseType(typeof(Resource))]
@@ -195,10 +179,20 @@ namespace WebApplication1.Controllers
             {
                 return NotFound();
             }
-
-            db.Resources.Remove(resource);
-            db.SaveChanges();
-
+            if (System.IO.File.Exists(filesDir+@"\"+  resource.resourceName)) ;
+            {
+                try
+                {
+                    System.IO.File.Delete(filesDir + @"\" + resource.resourceName);
+                    db.Resources.Remove(resource);
+                    db.SaveChanges();
+                }
+                catch (System.IO.IOException e)
+                {
+                    Console.WriteLine(e.Message);
+                    return BadRequest();
+                }
+            }
             return Ok(resource);
         }
 
@@ -216,26 +210,190 @@ namespace WebApplication1.Controllers
             return db.Resources.Count(e => e.resourceCode == id) > 0;
         }
 
-        [Route("api/inf")]
-        public void get()
+        [Route("api/deleteFileFromFolder/{name}")]
+        public bool DeleteFileFromFolder(string name)
         {
-            //This is the PDF file we want to update.
-            string filename = @"C:\Users\User\Documents\sourceFile\gg.pdf";
-            //Create the OleDocumentProperties object.
-            DSOFile.OleDocumentProperties dso = new DSOFile.OleDocumentProperties();
-            //Open the file for writing if we can. If not we will get an exception.
-            dso.Open(filename, false,
+            if (System.IO.File.Exists(filesDir +@"\" +name)) ;
+            {
+                try
+                {
+                    System.IO.File.Delete(filesDir +@"\"+ name);
+                    return true;
+                }
+                catch (System.IO.IOException e)
+                {
+                    return false;
+                }
+            }
+        }
+       
+        [HttpPost]
+        [Route("api/AcceptSameFile")]
+        public async Task<IHttpActionResult> AcceptSameFile()
+        {
+            if (!Request.Content.IsMimeMultipartContent())
+            {
+                throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
+            }
 
-              DSOFile.dsoFileOpenOptions.dsoOptionOpenReadOnlyIfNoWriteAccess);
-            //Set the summary properties that you want.
-            dso.SummaryProperties.Title = "This is the Title";
-            dso.SummaryProperties.Subject = "This is the Subject";
-            dso.SummaryProperties.Company = "RTDev";
-            dso.SummaryProperties.Author = "Ron T.";
-            //Save the Summary information.
-            dso.Save();
-            //Close the file.
-            dso.Close(false);
+            string root = HttpContext.Current.Server.MapPath("~/App_Data");
+            var provider = new MultipartFormDataStreamProvider(root);
+            try
+            {
+                await Request.Content.ReadAsMultipartAsync(provider);
+
+                NameValueCollection formdata = provider.FormData;
+                Resource resource = JsonConvert.DeserializeObject<Resource>(formdata["res"].ToString());
+
+                foreach (MultipartFileData file in provider.FileData)
+                {
+                    var fileName = file.Headers.ContentDisposition.FileName.Replace("\"", string.Empty)+"(1)";
+                    byte[] documentData = File.ReadAllBytes(file.LocalFileName);
+                    if (Directory.GetFiles(filesDir, fileName).Length == 0)
+                    {
+                        string destFile = System.IO.Path.Combine(filesDir, fileName);
+                        File.Copy(file.LocalFileName, destFile);
+                        resource.filePath = destFile;
+                        db.Resources.Add(resource);
+                        db.SaveChanges();
+                        return Ok();
+                    }
+                    else
+                    {
+                        return await UploadAsync();
+                    }
+
+                }
+                return Ok();
+            }
+            catch (System.Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/ReplaceFile")]
+        public async Task<IHttpActionResult> ReplaceFile()
+        {
+            if (!Request.Content.IsMimeMultipartContent())
+            {
+                throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
+            }
+
+            string root = HttpContext.Current.Server.MapPath("~/App_Data");
+            var provider = new MultipartFormDataStreamProvider(root);
+            try
+            {
+                await Request.Content.ReadAsMultipartAsync(provider);
+
+                NameValueCollection formdata = provider.FormData;
+                Resource resource = JsonConvert.DeserializeObject<Resource>(formdata["res"].ToString());
+
+                foreach (MultipartFileData file in provider.FileData)
+                {
+                    var fileName = file.Headers.ContentDisposition.FileName.Replace("\"", string.Empty);
+                    byte[] documentData = File.ReadAllBytes(file.LocalFileName);
+                    if (Directory.GetFiles(filesDir, fileName).Length > 0)
+                    {
+                        string destFile = System.IO.Path.Combine(filesDir, fileName);
+                        System.IO.File.Delete(filesDir+@"\" + fileName);
+                        var r = db.Resources.First(p => p.resourceName == fileName);
+                        db.Resources.Remove(r);
+                        db.SaveChanges();
+                        var per = new List<Permission>();
+                        foreach (var item in resource.Permissions)
+                        {
+                            per.Add(db.Permissions.First(p => p.permissionsCode == item.permissionsCode));
+                        }
+
+                        var cat = new List<Models.Category>();
+                        foreach (var item in resource.Categories)
+                        {
+                            cat.Add(db.Categories.First(p => p.CategoryId == item.CategoryId));
+                        }
+                        resource.Permissions = per;
+                        resource.Categories = cat;
+                        resource.filePath = destFile;
+                        db.Resources.Add(resource);
+                        db.SaveChanges();
+                        File.Copy(file.LocalFileName, destFile);
+                        return Ok();
+                    }
+                    else
+                    {
+                        return await UploadAsync();
+                    }
+
+                }
+                return Ok();
+            }
+            catch (System.Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/UploadFile")]
+        public async Task<IHttpActionResult> UploadAsync()
+        {
+            if (!Request.Content.IsMimeMultipartContent())
+            {
+                throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
+            }
+
+            string root = HttpContext.Current.Server.MapPath("~/App_Data");
+            var provider = new MultipartFormDataStreamProvider(root);
+            try
+            {
+                await Request.Content.ReadAsMultipartAsync(provider);
+
+                NameValueCollection formdata = provider.FormData;
+                Resource resource = JsonConvert.DeserializeObject<Resource>(formdata["res"].ToString());
+                
+                foreach (MultipartFileData file in provider.FileData)
+                {
+                    var fileName = file.Headers.ContentDisposition.FileName.Replace("\"", string.Empty);
+                    byte[] documentData = File.ReadAllBytes(file.LocalFileName);
+                    if (Directory.GetFiles(filesDir, fileName).Length == 0)
+                    {
+                        string destFile = System.IO.Path.Combine(filesDir, fileName);
+                        resource.filePath = destFile;
+                        var per = new List<Permission>();
+                        foreach (var item in resource.Permissions)
+                        {
+                            per.Add(db.Permissions.First(p=>p.permissionsCode==item.permissionsCode));
+                        }
+
+                        var cat = new List<Models.Category>();
+                        foreach (var item in resource.Categories)
+                        {
+                            cat.Add(db.Categories.First(p=>p.CategoryId==item.CategoryId));
+                        }
+                        resource.Permissions = per;
+                        resource.Categories = cat;
+                        db.Resources.Add(resource);
+                        db.SaveChanges();
+                        File.Copy(file.LocalFileName, destFile);
+
+                        return Ok();
+                    }
+                    else
+                    {
+                        var res = db.Resources.First(p => p.resourceName == fileName);                  
+                        return BadRequest(ResourceDto.ConvertToDto(res).ToString());
+                    }
+
+                }
+                return Ok();
+            }
+            catch (System.Exception e)
+            {
+
+                return BadRequest(e.Message);
+            }
         }
     }
+
 }

@@ -1,0 +1,32 @@
+<div class="row" dir="rtl">
+  <form class="col-md-6">
+
+     <p>{{SingelFile.resourceName}}</p> 
+
+    <div class="form-group row" *ngIf="SingelFile">
+      <label for="authorName" class="col-sm-4">שם מחבר:</label>
+      <input type="text" class="form-control col-sm-6" id="authorName" value="{{SingelFile.authorName}}"
+        name="authorName" [(ngModel)]="SingelFile.authorName" >
+    </div>
+
+    <div class="form-group row" *ngIf="SingelFile&&SingelFile.Permissions&&SingelFile.Permissions.length>0&&permission">
+      <label for="resourcePermission" class="col-sm-4">הרשאת קובץ:</label>
+      <ng-select style="background-color: white;
+           height: 9px;
+           width: 270px;" [items]="permission" [multiple]="true" [closeOnSelect]="false" 
+        [clearOnBackspace]="false" bindLabel="permissionsType" [(ngModel)]="SingelFile.Permissions" name="control1">
+      </ng-select>
+    </div>
+  
+      <div class="form-group row" *ngIf="SingelFile&&SingelFile.Categories&&SingelFile.Categories.length>0&&categories">
+          <label for="resourceCategories" class="col-sm-4"> קטגוריות:</label>
+          <ng-select style="background-color: white;
+             height: 9px;
+             width: 270px;" [items]="categories" [multiple]="true" [closeOnSelect]="false" 
+            [clearOnBackspace]="false" bindLabel="categoryName" [(ngModel)]="SingelFile.Categories" name="control16">
+          </ng-select>
+        </div>
+    <button (click)="editFile()">עדכן</button>
+  </form>
+
+</div>

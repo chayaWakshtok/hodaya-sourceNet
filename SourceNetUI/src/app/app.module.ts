@@ -30,6 +30,10 @@ import { NgHttpLoaderModule } from 'ng-http-loader';
 import { UserComponent } from './user/user.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { DeleteUserComponent } from './delete-user/delete-user.component';
+import { EditResourceComponent } from './edit-resource/edit-resource.component';
+import { CanActivateViaAuthGuard } from './CanActivateViaAuthGuard ';
+import { UploadService } from './upload.service';
+import { ModalSameFileComponent } from './modal-same-file/modal-same-file.component';
 
 @NgModule({
    declarations: [
@@ -47,7 +51,9 @@ import { DeleteUserComponent } from './delete-user/delete-user.component';
       RoleComponent,
       UserComponent,
       EditUserComponent,
-      DeleteUserComponent
+      DeleteUserComponent,
+      EditResourceComponent,
+      ModalSameFileComponent
    ],
    imports: [
       BrowserModule,
@@ -67,10 +73,13 @@ import { DeleteUserComponent } from './delete-user/delete-user.component';
       NgHttpLoaderModule.forRoot()
    ],
    entryComponents: [
-      AddUserComponent,EditUserComponent
+      AddUserComponent,
+      EditUserComponent
    ],
    providers: [
-      FilesService
+      FilesService,
+      CanActivateViaAuthGuard,
+      UploadService
    ],
    bootstrap: [
       AppComponent

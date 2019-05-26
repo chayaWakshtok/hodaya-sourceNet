@@ -13,10 +13,10 @@ const url = "http://localhost:13264/"
 })
 export class FilesService {
 
-    user:User=null;
+    user: User = null;
     url_file: any;
     resourceDetails: any;
-    loginSubject=new Subject();
+    loginSubject = new Subject();
 
     constructor(public httpClient: HttpClient) { }
 
@@ -25,9 +25,16 @@ export class FilesService {
         return this.httpClient.get<Resource[]>(apiUrl1);
     }
 
-    upload(record): any {
-        let apiUrl1 = url + "api/Resources";
-        return this.httpClient.post(apiUrl1, record)
+ 
+    editRecourse(recourses,uploadFil)
+    {
+        debugger;
+       return this.httpClient.put(url+"api/Resources/"+recourses,uploadFil)
+    }
+
+    deleteRecourse(id)
+    {
+       return this.httpClient.delete(url+"api/Resources/"+id)
     }
 
     uploadFile(file: File): any {
@@ -36,13 +43,30 @@ export class FilesService {
         let headers = new Headers()
         //headers.append('Content-Type', 'json');  
         //headers.append('Accept', 'application/json'); 
-        let apiUrl1 = url + "api/UploadJsonFile";
+        let apiUrl1 = url + "api/UploadFile";
         return this.httpClient.post(apiUrl1, formData)
 
     }
 
+    replaceFile(file: File): any {
+        let formData: FormData = new FormData();
+        formData.append('uploadFile', file, file.name);
+        let headers = new Headers() 
+        let apiUrl1 = url + "api/ReplaceFile";
+        return this.httpClient.post(apiUrl1, formData)
+
+    }
+
+    deleteFile(nameFile) {
+       return this.httpClient.get(url + "api/deleteFileFromFolder/" + nameFile)
+    }
+
     getAllCategories(): Observable<any> {
         return this.httpClient.get(url + "api/Categories");
+    }
+
+    getPermisionsFile(): Observable<any> {
+        return this.httpClient.get(url + "api/permission/getPermissionResource");
     }
 
     getContentFile(id) {
@@ -61,8 +85,8 @@ export class FilesService {
         return this.httpClient.get(url + 'api/Roles');
     }
 
-    login(userName,password) {
-        return this.httpClient.post(url + 'api/users/login/'+userName+"/"+password ,{});
+    login(userName, password) {
+        return this.httpClient.get(url + 'api/users/login/' + userName + "/" + password, {});
     }
 
     updateRole(role: Role) {
@@ -72,16 +96,15 @@ export class FilesService {
     addUser(user) {
         return this.httpClient.post(url + 'api/Users', user);
     }
-    updateUser(user:User) {
-        return this.httpClient.put(url + 'api/Users/'+user.userCode, user);
+    updateUser(user: User) {
+        return this.httpClient.put(url + 'api/Users/' + user.userCode, user);
     }
-    getUsers(){
-        return this.httpClient.get(url+"api/Users");
+    getUsers() {
+        return this.httpClient.get(url + "api/Users");
     }
 
-    deleteUser(user:User)
-    {
-        return this.httpClient.delete(url + 'api/Users/'+user.userCode);
+    deleteUser(user: User) {
+        return this.httpClient.delete(url + 'api/Users/' + user.userCode);
     }
-    
+
 }

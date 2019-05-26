@@ -19,7 +19,9 @@ namespace WebApplication1.Controllers
         // GET: api/Roles
         public IQueryable<Role> GetRoles()
         {
-            return db.Roles;
+            db.Configuration.LazyLoadingEnabled = false;
+            db.Configuration.ProxyCreationEnabled = false;
+            return db.Roles.AsNoTracking();
         }
 
         // GET: api/Roles/5

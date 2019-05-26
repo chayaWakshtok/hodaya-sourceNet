@@ -3,16 +3,17 @@
 
         <div class="form-group row">
             <label class="col-sm-2">הוסף קובץ</label>
-            <input dir="rtl" type="file" name="file"  (change)="handleFileInput($event.target.files)" class="form-control col-sm-3"
-                id="upload" accept="" required>
+            <input dir="rtl" type="file" name="file" (change)="handleFileInput($event.target.files)"
+                class="form-control col-sm-3" id="upload" accept="" required>
         </div>
 
         <div class="form-group row">
             <label class="col-sm-2">סוג הרשאה</label>
             <ng-select style="background-color: white;
             height: 9px;
-            width: 270px;" [items]="options" [multiple]="true" [closeOnSelect]="false" [clearOnBackspace]="false"
-                bindLabel="name" placeholder="בחר הרשאות קובץ" [(ngModel)]="recorceFile.Permissions" name="control1">
+            width: 270px;" [items]="permission" [multiple]="true" [closeOnSelect]="false" [clearOnBackspace]="false"
+                bindLabel="permissionsType" placeholder="בחר הרשאות קובץ" [(ngModel)]="recorceFile.Permissions"
+                name="control1">
             </ng-select>
         </div>
 
@@ -21,42 +22,26 @@
             <ng-select style="background-color: white;
             height: 9px;
             width: 270px;" [items]="categories" [multiple]="true" [closeOnSelect]="false" [clearOnBackspace]="false"
-                bindLabel="categoryName" placeholder="בחר קטגוריות" [(ngModel)]="recorceFile.Categories" name="control1">
+                bindLabel="categoryName" placeholder="בחר קטגוריות" [(ngModel)]="recorceFile.Categories"
+                name="control1">
             </ng-select>
         </div>
 
         <div class="form-group row">
             <label class="col-sm-2"> גודל הקובץ</label>
-            <input type="text" name="size" [(ngModel)]="recorceFile.sizeB" readonly >
+            <input type="text" name="size" [(ngModel)]="recorceFile.sizeB" readonly>
         </div>
 
         <div class="form-group row">
             <label class="col-sm-2"> בעלי הקובץ</label>
-            <input type="text" name="auth" [(ngModel)]="recorceFile.authorName" >
+            <input type="text" name="auth" [(ngModel)]="recorceFile.authorName">
         </div>
 
         <div class="form-group row">
-                <label class="col-sm-2"> גרסה </label>
-                <input type="text" name="version" [(ngModel)]="recorceFile.version" readonly >
-            </div>
+            <label class="col-sm-2"> תאריך יצירת הקובץ </label>
+            <input type="datetime" name="date" [(ngModel)]="recorceFile.date" readonly>
+        </div>
 
-            <div class="form-group row">
-                    <label class="col-sm-2"> מספר דפים </label>
-                    <input type="text" name="page" [(ngModel)]="recorceFile.numPage" readonly >
-                </div>
-
-                <div class="form-group row">
-                        <label class="col-sm-2"> תאריך יצירת הקובץ </label>
-                        <input type="datetime" name="date" [(ngModel)]="recorceFile.date" readonly >
-                    </div>
-                    <div class="form-group row">
-                            <label class="col-sm-2"> ניתוב </label>
-                            <input type="path" name="path" [(ngModel)]="recorceFile.filePath" readonly >
-                        </div>
-        <!-- <div class="col-sm-3" style="direction: rtl">
-        <ngx-dropdown-treeview [config]="config" [items]="items" [buttonClass]="buttonClass" (selectedChange)="values = $event" >
-      </ngx-dropdown-treeview>
-</div> -->
-        <button type="button" class="btn btn-lg" (click)="uploadFile()">הוסף קובץ</button>
+        <button type="button" class="btn btn-lg" (click)="uploadFile11()">הוסף קובץ</button>
     </form>
 </div>

@@ -17,9 +17,14 @@ namespace WebApplication1.Controllers
         private SourceDataEntities2 db = new SourceDataEntities2();
 
         // GET: api/Users
-        public IQueryable<User> GetUsers()
+        public List<UserDto> GetUsers()
         {
-            return db.Users;
+            List<UserDto> users = new List<UserDto>();
+            foreach (var item in db.Users)
+            {
+                users.Add(UserDto.ConvertToDto(item));
+            }
+            return users;
         }
 
         // GET: api/Users/5
@@ -31,13 +36,12 @@ namespace WebApplication1.Controllers
             {
                 return NotFound();
             }
-
-            return Ok(user);
+            return Ok(UserDto.ConvertToDto(user));
         }
 
         // PUT: api/Users/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutUser(int id, User user)
+        public IHttpActionResult PutUser(int id, UserDto user)
         {
             if (!ModelState.IsValid)
             {
@@ -49,11 +53,12 @@ namespace WebApplication1.Controllers
                 return BadRequest();
             }
 
-            var userEdit=db.Users.Find(user.userCode);
+            var userEdit = db.Users.Find(user.userCode);
             userEdit.userName = user.userName;
             userEdit.password = user.password;
             userEdit.email = user.email;
-         //   db.Entry(user).State = EntityState.Modified;
+            userEdit.Role = RoleDto.ConvertToDB1(user.Role);
+            //   db.Entry(user).State = EntityState.Modified;
 
             try
             {
@@ -82,27 +87,33 @@ namespace WebApplication1.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            user.Role = db.Roles.Find(user.roleCode);
             db.Users.Add(user);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = user.userCode }, user);
+            List<UserDto> users = new List<UserDto>();
+            foreach (var item in db.Users)
+            {
+                users.Add(UserDto.ConvertToDto(item));
+            }
+            
+
+            return Ok(users);
         }
+
         [HttpGet]
         [Route("api/users/login/{username}/{password}")]
-        public User Login(string username,string password)
+        public UserDto Login(string username, string password)
         {
+            
             if (db.Users.FirstOrDefault(p => p.password == password && p.userName == username) != null)
             {
-               var user= db.Users.First(p => p.password == password && p.userName == username);
-                var permission = user.Role.Permissions.Select(p=>new Permission() { permissionsCode=p.permissionsCode,
-                permissionsType=p.permissionsType}).ToList();
-                user.Role.Permissions = permission;
-                var newUser = new User() {email=user.email,password=user.password,roleCode=user.roleCode,userCode=user.userCode
-                ,userName=user.userName,year=user.year,Role=user.Role};
-                return newUser;
-            }
                 
+                var user = db.Users.First(p => p.password == password && p.userName == username);
+                return UserDto.ConvertToDto(user);
+
+            }
+
             else return null;
         }
 

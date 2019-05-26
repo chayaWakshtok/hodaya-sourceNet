@@ -26,7 +26,7 @@ export class AddUserComponent implements OnInit {
    submitForm() {
     this.fileService.addUser(this.newUser).subscribe(res => {
       this.toastr.success('success to add user');
-      this.activeModal.close(this.newUser);
+      this.activeModal.close(res);
     },err=>{
       this.activeModal.close({});
     })

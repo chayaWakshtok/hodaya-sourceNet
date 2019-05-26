@@ -7,18 +7,22 @@ import { ResourcesDetailComponent } from './resources-detail/resources-detail.co
 import { RoleComponent } from './role/role.component';
 import { LogInComponent } from './log-in/log-in.component';
 import { UserComponent } from './user/user.component';
+import { EditResourceComponent } from './edit-resource/edit-resource.component';
+import { CanActivateViaAuthGuard } from './CanActivateViaAuthGuard ';
 
 
 
 const routes: Routes = [
   { path: "", redirectTo: "login", pathMatch: "full" },
   { path: 'search', component: SearchComponent },
-  { path: 'resources-detail', component: ResourcesDetailComponent },
-  { path: 'upload', component: UploadComponent },
-  { path: 'addUser', component: AddUserComponent },
-  { path: 'roles', component: RoleComponent },
+  { path: 'resources-detail', component: ResourcesDetailComponent,canActivate:[CanActivateViaAuthGuard ]},
+  { path: 'upload', component: UploadComponent ,canActivate:[CanActivateViaAuthGuard ]},
+  { path: 'addUser', component: AddUserComponent,canActivate:[CanActivateViaAuthGuard ] },
+  { path: 'roles', component: RoleComponent,canActivate:[CanActivateViaAuthGuard ] },
   { path: 'login', component: LogInComponent },
-  { path: 'users', component: UserComponent }
+  { path: 'users', component: UserComponent ,canActivate:[CanActivateViaAuthGuard ]},
+  { path: 'edit-resource', component: EditResourceComponent ,canActivate:[CanActivateViaAuthGuard ]}
+
 ];
 
 @NgModule({

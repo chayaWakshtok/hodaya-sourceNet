@@ -28,13 +28,25 @@
       <ng-select style="background-color: white;
          height: 9px;
          width: 270px;" [items]="SingelFile.Permissions" [multiple]="true" [closeOnSelect]="false" disabled
-        [clearOnBackspace]="false" bindLabel="permissionsType" [(ngModel)]="SingelFile.Permissions" name="control1">
+        [clearOnBackspace]="false" bindLabel="permissionsType" [(ngModel)]="SingelFile.Permissions" name="control11">
       </ng-select>
     </div>
 
+    <div class="form-group row" *ngIf="SingelFile&&SingelFile.Categories&&SingelFile.Categories.length>0">
+        <label for="resourceCategories" class="col-sm-4"> קטגוריות:</label>
+        <ng-select style="background-color: white;
+           height: 9px;
+           width: 270px;" [items]="SingelFile.Categories" [multiple]="true" [closeOnSelect]="false" disabled
+          [clearOnBackspace]="false" bindLabel="categoryName" [(ngModel)]="SingelFile.Categories" name="control1">
+        </ng-select>
+      </div>
+
     <div class=" buttons">
+        <button type="button" *ngIf="editPer" (click)="editFile()" class="btn col-sm-2">עריכת פרטי קובץ</button>
+        <button type="button" *ngIf="deletePer" (click)="deleteFile()" class="btn col-sm-2">מחיקת קובץ</button>
+
       <button type="button" *ngIf="writePremission" (click)="openResource()" class="btn col-sm-2">עריכה</button>
-      <button type="button" *ngIf="donloadPremission" class="btn col-sm-2" (click)="donloadFile()"><a [href]="donloadSrc" download="{{SingelFile.resourceName}}">הורדה</a></button>
+      <button type="button" *ngIf="donloadPremission" class="btn col-sm-2" (click)="donloadFile()"><a *ngIf="donloadSrc" [href]="donloadSrc" download="{{SingelFile.resourceName}}">הורדה</a></button>
     </div>
   </form>
   <div class="col-md-6" *ngIf="viewPremission&&url" style="width: 300px; height: 300px;">

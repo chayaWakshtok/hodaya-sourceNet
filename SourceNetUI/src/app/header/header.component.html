@@ -4,16 +4,14 @@
     <div  class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['search']" >חיפוש</a>
+          <a class="nav-link" [routerLink]="['search']" >קבצים</a>
         </li>
         <li *ngIf="addFile" class="nav-item">
-          <a class="nav-link" [routerLink]="['upload']">העלאה</a>
+          <a class="nav-link" [routerLink]="['upload']">העלאת קובץ</a>
         </li>
+        
         <li *ngIf="addUser" class="nav-item">
-          <a class="nav-link" [routerLink]="['addUser']" >הוספת משתמש</a>
-        </li>
-        <li *ngIf="addUser" class="nav-item">
-          <a class="nav-link" [routerLink]="['users']" >הוספת משתמש</a>
+          <a class="nav-link" [routerLink]="['users']" > משתמשים</a>
         </li>
         <li *ngIf="permission" class="nav-item">
           <a class="nav-link" [routerLink]="['roles']" > הרשאות</a>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.IO;
@@ -15,35 +16,15 @@ namespace WebApplication1.Controllers
     {
         private SourceDataEntities2 db = new SourceDataEntities2();
 
-      
-        [Route("api/ggg")]
-        [HttpGet]
-        public string ggg()
-        {
-            var appWord = new Application();
-            if (appWord.Documents != null)
-            {
-                //yourDoc is your word document
-                var wordDocument = appWord.Documents.Open(@"C:\Users\User\Documents\sourceFile\Files\Boggle.docx");
-                string pdfDocName = "pdfDocument44.pdf";
-                if (wordDocument != null)
-                {
-                    wordDocument.ExportAsFixedFormat(pdfDocName,
-                    WdExportFormat.wdExportFormatPDF);
-                    wordDocument.Close();
-                }
-                appWord.Quit();
-            }
-            byte[] pdfBytes = File.ReadAllBytes(@"C:\Users\User\Documents\pdfDocument44.pdf");
-            string pdfBase64 = Convert.ToBase64String(pdfBytes);
-
-            return pdfBase64;
-        }
-    
         // GET: api/Categories
-        public IQueryable<Models.Category> GetCategories()
+        public List<Models.CategoryDto> GetCategories()
         {
-            return db.Categories;
+            List<CategoryDto> cat = new List<CategoryDto>();
+            foreach (var item in db.Categories)
+            {
+                cat.Add(CategoryDto.ConvertToDto(item));
+            }
+            return cat;
         }
 
         // GET: api/Categories/5
@@ -56,7 +37,7 @@ namespace WebApplication1.Controllers
                 return NotFound();
             }
 
-            return Ok(category);
+            return Ok(CategoryDto.ConvertToDto(category));
         }
 
         // PUT: api/Categories/5
@@ -96,17 +77,16 @@ namespace WebApplication1.Controllers
 
         // POST: api/Categories
         [ResponseType(typeof(Models.Category))]
-        public IHttpActionResult PostCategory(Models.Category category)
+        public IHttpActionResult PostCategory(Models.CategoryDto category)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            db.Categories.Add(category);
+            
+            db.Categories.Add(CategoryDto.ConvertToDB(category));
             db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = category.CategoryId }, category);
+            return Ok();
         }
 
         // DELETE: api/Categories/5

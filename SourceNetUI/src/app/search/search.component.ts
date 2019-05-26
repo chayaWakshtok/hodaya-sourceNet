@@ -26,6 +26,7 @@ export class SearchComponent implements OnInit {
   ngOnInit() {
     this.spinner.show();
     this.fileSevice.getAllResource().subscribe(res => {
+      console.log(res);
       this.resource = res;
       this.resourceFillter = res;
       this.spinner.hide();
