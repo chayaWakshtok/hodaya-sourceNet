@@ -56,7 +56,7 @@
             <td>{{user.userName}}</td>
             <td>{{user.password}}</td>
             <td>{{user.email }}</td>
-            <td>{{user.Role.roleType}}</td>
+            <td *ngIf="user.Role">{{user.Role['roleType']}}</td>
             <td>
               <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons"
                   data-toggle="tooltip" title="Edit" (click)="edit(user)">&#xE254;</i></a>

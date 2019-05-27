@@ -17,11 +17,14 @@ namespace WebApplication1.Controllers
         private SourceDataEntities2 db = new SourceDataEntities2();
 
         // GET: api/Roles
-        public IQueryable<Role> GetRoles()
+        public List<RoleDto> GetRoles()
         {
-            db.Configuration.LazyLoadingEnabled = false;
-            db.Configuration.ProxyCreationEnabled = false;
-            return db.Roles.AsNoTracking();
+            List< RoleDto> roles = new List<RoleDto>();
+            foreach (var item in db.Roles)
+            {
+                roles.Add(RoleDto.ConvertToDto(item));
+            }
+            return roles;
         }
 
         // GET: api/Roles/5
