@@ -1,9 +1,29 @@
-<div dir="rtl" >
+<!-- <div  >
   <div *ngFor="let role of roles">
     <p>{{role.roleType}}</p>
     <div *ngFor="let pre of role.Permissions">
       <p>{{pre.permissionsType}}</p>
     </div>
     <button (click)="edit(role)">edit</button>
+  </div>
+</div> -->
+<div class="container" style="direction: rtl;">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            קבוצות הרשאות</h3>
+        </div>
+        <ul class="list-group">
+          <a (click)="showPer(role)" class="list-group-item" *ngFor="let role of roles">{{role.roleType}}</a>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-6" *ngIf="role&&role.Permissions">
+      <div *ngFor="let pre of role.Permissions">
+        {{pre.permissionsType}}
+      </div>
+    </div>
   </div>
 </div>

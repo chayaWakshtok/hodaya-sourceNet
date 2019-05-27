@@ -10,7 +10,7 @@ import { Role } from '../shared/role';
 export class RoleComponent implements OnInit {
 
   roles: Role[] = [];
-
+  role:Role=new Role();
   constructor(public fileService: FilesService) { }
 
   ngOnInit() {
@@ -21,6 +21,11 @@ export class RoleComponent implements OnInit {
 
   edit(role: Role) {
      
+  }
+
+  showPer(role)
+  {
+    this.role=role;
   }
 
   updateRole()
