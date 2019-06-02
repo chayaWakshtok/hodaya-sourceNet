@@ -5,6 +5,7 @@ import { TreeviewItem } from 'ngx-treeview';
 import { Resource } from './shared/resource';
 import { Role } from './shared/role';
 import { User } from './shared/user';
+import { Category } from './shared/category';
 
 
 const url = "http://localhost:13264/"
@@ -12,6 +13,8 @@ const url = "http://localhost:13264/"
     providedIn: 'root'
 })
 export class FilesService {
+
+
 
     user: User = null;
     url_file: any;
@@ -25,16 +28,14 @@ export class FilesService {
         return this.httpClient.get<Resource[]>(apiUrl1);
     }
 
- 
-    editRecourse(recourses,uploadFil)
-    {
+
+    editRecourse(recourses, uploadFil) {
         debugger;
-       return this.httpClient.put(url+"api/Resources/"+recourses,uploadFil)
+        return this.httpClient.put(url + "api/Resources/" + recourses, uploadFil)
     }
 
-    deleteRecourse(id)
-    {
-       return this.httpClient.delete(url+"api/Resources/"+id)
+    deleteRecourse(id) {
+        return this.httpClient.delete(url + "api/Resources/" + id)
     }
 
     uploadFile(file: File): any {
@@ -51,14 +52,14 @@ export class FilesService {
     replaceFile(file: File): any {
         let formData: FormData = new FormData();
         formData.append('uploadFile', file, file.name);
-        let headers = new Headers() 
+        let headers = new Headers()
         let apiUrl1 = url + "api/ReplaceFile";
         return this.httpClient.post(apiUrl1, formData)
 
     }
 
     deleteFile(nameFile) {
-       return this.httpClient.get(url + "api/deleteFileFromFolder/" + nameFile)
+        return this.httpClient.get(url + "api/deleteFileFromFolder/" + nameFile)
     }
 
     getAllCategories(): Observable<any> {
@@ -105,6 +106,21 @@ export class FilesService {
 
     deleteUser(user: User) {
         return this.httpClient.delete(url + 'api/Users/' + user.userCode);
+    }
+
+    addNewCategory(category: Category) {
+        return this.httpClient.post(url + 'api/Categories', category);
+    }
+
+    getPremmisionsRole() {
+        return this.httpClient.get(url + 'api/getPremmisionsRole');
+    }
+
+    addRole(role: Role) {
+        return this.httpClient.post(url + 'api/Roles', role);
+    }
+    editRole(role: Role) {
+        return this.httpClient.put(url + 'api/Roles/'+role.roleCode, role);
     }
 
 }

@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
       this.arr = res;
       if (this.arr.filter(p => p == 1009))
         this.addUser = true;
-        if (this.arr.filter(p => p == 6))
+        if (this.arr.filter(p => p == 6||p==2012))
         this.addFile = true;
       if (this.arr.filter(p => p == 2009))
         this.permission = true;

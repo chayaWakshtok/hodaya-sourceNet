@@ -3,6 +3,8 @@ import { FilesService } from '../files.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
+import { ModalNewCategoryComponent } from '../modal-new-category/modal-new-category.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-edit-resource',
@@ -17,7 +19,10 @@ export class EditResourceComponent implements OnInit {
 
   constructor(public fileService: FilesService,
     private route: ActivatedRoute,
-    public sanitizer: DomSanitizer, public router: Router,public toaster:ToastrService) { }
+    public sanitizer: DomSanitizer, 
+    public router: Router,
+    public toaster:ToastrService,
+    public modalService:NgbModal) { }
 
 
   ngOnInit() {
@@ -41,5 +46,15 @@ export class EditResourceComponent implements OnInit {
     },err=>{
       this.toaster.error(" עדכון פרטי הקובץ נכשל")
     })
+  }
+
+  addCategory()
+  {
+    const modalRef = this.modalService.open(ModalNewCategoryComponent);
+    modalRef.result.then((result) => {
+      this.fileService.getAllCategories().subscribe(res => {
+        this.categories = res;
+      });
+    }).catch((error) => {    });
   }
 }

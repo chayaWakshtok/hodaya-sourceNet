@@ -76,7 +76,7 @@
           <Property Name="roleCode" Type="int" />
           <Property Name="year" Type="date" />
         </EntityType>
-        <Association Name="FK_ResourceCategory_Categories">
+        <Association Name="FK_ResourceCategory_Resources">
           <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
           <End Role="ResourceCategory" Type="Self.ResourceCategory" Multiplicity="*" />
           <ReferentialConstraint>
@@ -88,8 +88,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ResourceCategory_Resources">
-          <End Role="Resources" Type="Self.Resources" Multiplicity="1" />
+        <Association Name="FK_ResourceCategory_Resources1">
+          <End Role="Resources" Type="Self.Resources" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="ResourceCategory" Type="Self.ResourceCategory" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Resources">
@@ -113,7 +115,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ResourcePermission_Resources">
-          <End Role="Resources" Type="Self.Resources" Multiplicity="1" />
+          <End Role="Resources" Type="Self.Resources" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="ResourcePermission" Type="Self.ResourcePermission" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Resources">
@@ -137,7 +141,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_RolesPremmision_Role">
-          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="Role" Type="Self.Role" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="RolesPremmision" Type="Self.RolesPremmision" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Role">
@@ -149,7 +155,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Users_Role">
-          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="Role" Type="Self.Role" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Users" Type="Self.Users" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Role">
@@ -169,11 +177,11 @@
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RolesPremmision" EntityType="Self.RolesPremmision" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_ResourceCategory_Categories" Association="Self.FK_ResourceCategory_Categories">
+          <AssociationSet Name="FK_ResourceCategory_Resources" Association="Self.FK_ResourceCategory_Resources">
             <End Role="Categories" EntitySet="Categories" />
             <End Role="ResourceCategory" EntitySet="ResourceCategory" />
           </AssociationSet>
-          <AssociationSet Name="FK_ResourceCategory_Resources" Association="Self.FK_ResourceCategory_Resources">
+          <AssociationSet Name="FK_ResourceCategory_Resources1" Association="Self.FK_ResourceCategory_Resources1">
             <End Role="Resources" EntitySet="Resources" />
             <End Role="ResourceCategory" EntitySet="ResourceCategory" />
           </AssociationSet>

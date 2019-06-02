@@ -1,0 +1,20 @@
+<div class="container">
+  <h2>הוספת הרשאה</h2>
+  <form dir="rtl">
+    <div class="form-group row">
+      <label for="name" class="col-sm-2">שם</label>
+      <input type="text" name="name" [(ngModel)]="role.roleType">
+    </div>
+    <div class="form-group row">
+      <label for="per" class="col-sm-2">הרשאות</label>
+      <ng-select style="background-color: white;
+        height: 9px;
+        width: 270px;" [items]="per" [multiple]="true" [closeOnSelect]="false" [clearOnBackspace]="false"
+        bindLabel="permissionsType" placeholder="בחר קטגוריות" [(ngModel)]="role.Permissions" name="control1">
+      </ng-select>
+    </div>
+
+    <button type="submit" class="btn btn-lg" (click)="submitForm()">הוסף</button>
+  </form>
+
+</div>

@@ -106,6 +106,7 @@ export class ResourcesDetailComponent implements OnInit {
             'הקובץ נמחק בהצלחה.',
             'success'
           )
+          this.router.navigate(['search'])
         });      
       }
     })

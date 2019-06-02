@@ -76,7 +76,14 @@ namespace WebApplication1.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            List<UserDto> users = new List<UserDto>();
+            foreach (var item in db.Users)
+            {
+                users.Add(UserDto.ConvertToDto(item));
+            }
+
+
+            return Ok(users);
         }
 
         // POST: api/Users

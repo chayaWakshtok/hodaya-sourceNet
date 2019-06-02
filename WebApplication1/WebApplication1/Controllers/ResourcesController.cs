@@ -184,6 +184,10 @@ namespace WebApplication1.Controllers
                 try
                 {
                     System.IO.File.Delete(filesDir + @"\" + resource.resourceName);
+                    resource.Permissions =null;
+                    resource.Categories = null;
+                    db.SaveChanges();
+                   
                     db.Resources.Remove(resource);
                     db.SaveChanges();
                 }

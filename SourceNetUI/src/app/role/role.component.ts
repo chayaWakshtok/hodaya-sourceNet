@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FilesService } from '../files.service';
 import { Role } from '../shared/role';
+import { Permission } from '../shared/permission';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalAddRoleComponent } from '../modal-add-role/modal-add-role.component';
+import { ModalEditRoleComponent } from '../modal-edit-role/modal-edit-role.component';
 
 @Component({
   selector: 'app-role',
@@ -10,8 +14,10 @@ import { Role } from '../shared/role';
 export class RoleComponent implements OnInit {
 
   roles: Role[] = [];
+  permission:Permission[]=[];
   role:Role=new Role();
-  constructor(public fileService: FilesService) { }
+  constructor(public fileService: FilesService,
+    public modalService:NgbModal) { }
 
   ngOnInit() {
     this.fileService.getRoles().subscribe((res: Role[]) => {
@@ -19,18 +25,25 @@ export class RoleComponent implements OnInit {
     })
   }
 
+  addRole()
+  {
+  const modalRef = this.modalService.open(ModalAddRoleComponent);
+      modalRef.result.then((result) => {
+      this.roles=result;
+      }).catch((result) => {   
+        this.roles=result;
+       }); 
+  }
+
   edit(role: Role) {
-     
-  }
-
-  showPer(role)
-  {
-    this.role=role;
-  }
-
-  updateRole()
-  {
-    
+    const modalRef = this.modalService.open(ModalEditRoleComponent);
+    modalRef.componentInstance.role={...role};
+    modalRef.result.then((result) => {
+      debugger;
+      this.roles=result;
+    }).catch((result) => { 
+      this.roles=result;
+      }); 
   }
 
 }

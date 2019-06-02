@@ -33,6 +33,15 @@ namespace WebApplication1.Controllers
             return db.Permissions.Where(p=>p.permissionsCode<=5).AsNoTracking().ToList();
         }
 
+        [HttpGet]
+        [Route("api/getPremmisionsRole")]
+        public List<Permission> GetPermissionsRole()
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            db.Configuration.ProxyCreationEnabled = false;
+            return db.Permissions.Where(p => p.permissionsCode >=6).AsNoTracking().ToList();
+        }
+
         // GET: api/Permissions/5
         [ResponseType(typeof(Permission))]
         public IHttpActionResult GetPermission(int id)

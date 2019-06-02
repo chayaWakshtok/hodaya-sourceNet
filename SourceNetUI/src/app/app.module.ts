@@ -29,11 +29,16 @@ import { SimplePdfViewerModule } from 'simple-pdf-viewer';
 import { NgHttpLoaderModule } from 'ng-http-loader';
 import { UserComponent } from './user/user.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
-import { DeleteUserComponent } from './delete-user/delete-user.component';
 import { EditResourceComponent } from './edit-resource/edit-resource.component';
 import { CanActivateViaAuthGuard } from './CanActivateViaAuthGuard ';
 import { UploadService } from './upload.service';
 import { ModalSameFileComponent } from './modal-same-file/modal-same-file.component';
+import { FileDropModule } from 'ngx-file-drop';
+import { EditResourceModalComponent } from './edit-resource-modal/edit-resource-modal.component';
+import { ModalUpdateAllComponent } from './modal-update-all/modal-update-all.component';
+import { ModalNewCategoryComponent } from './modal-new-category/modal-new-category.component';
+import { ModalAddRoleComponent } from './modal-add-role/modal-add-role.component';
+import { ModalEditRoleComponent } from './modal-edit-role/modal-edit-role.component';
 
 @NgModule({
    declarations: [
@@ -51,9 +56,13 @@ import { ModalSameFileComponent } from './modal-same-file/modal-same-file.compon
       RoleComponent,
       UserComponent,
       EditUserComponent,
-      DeleteUserComponent,
       EditResourceComponent,
-      ModalSameFileComponent
+      ModalSameFileComponent,
+      EditResourceModalComponent,
+      ModalUpdateAllComponent,
+      ModalNewCategoryComponent,
+      ModalAddRoleComponent,
+      ModalEditRoleComponent
    ],
    imports: [
       BrowserModule,
@@ -62,6 +71,7 @@ import { ModalSameFileComponent } from './modal-same-file/modal-same-file.compon
       NgSelectModule,
       FormsModule,
       FileUploadModule,
+      FileDropModule,
       TreeviewModule.forRoot(),
       NgbModule.forRoot(),
       NgbModalModule,
@@ -73,9 +83,14 @@ import { ModalSameFileComponent } from './modal-same-file/modal-same-file.compon
       NgHttpLoaderModule.forRoot()
    ],
    entryComponents: [
+      ModalNewCategoryComponent,
       AddUserComponent,
       EditUserComponent,
-      ModalSameFileComponent
+      ModalSameFileComponent,
+      EditResourceModalComponent,
+      ModalUpdateAllComponent,
+      ModalEditRoleComponent,
+      ModalAddRoleComponent
    ],
    providers: [
       FilesService,

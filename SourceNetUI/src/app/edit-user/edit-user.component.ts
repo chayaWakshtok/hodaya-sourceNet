@@ -24,10 +24,10 @@ export class EditUserComponent implements OnInit {
 
    submitForm() {
     this.fileService.updateUser(this.newUser).subscribe(res => {
-      this.toastr.success('success to update user');
-      this.activeModal.close(this.newUser);
+      this.toastr.success('עדכון המשתמש הצליח');
+      this.activeModal.close(res);
     },err=>{
-      this.activeModal.close({});
+      this.activeModal.dismiss({});
     })
     
   }

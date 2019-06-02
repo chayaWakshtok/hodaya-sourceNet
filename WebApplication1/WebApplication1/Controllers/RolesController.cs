@@ -19,7 +19,7 @@ namespace WebApplication1.Controllers
         // GET: api/Roles
         public List<RoleDto> GetRoles()
         {
-            List< RoleDto> roles = new List<RoleDto>();
+            List<RoleDto> roles = new List<RoleDto>();
             foreach (var item in db.Roles)
             {
                 roles.Add(RoleDto.ConvertToDto(item));
@@ -53,9 +53,23 @@ namespace WebApplication1.Controllers
             {
                 return BadRequest();
             }
-
-            db.Entry(role).State = EntityState.Modified;
-
+            Role rol = db.Roles.First(r => r.roleCode == role.roleCode);
+            rol.roleType = role.roleType;
+          
+            List<Permission> per = new List<Permission>();
+            foreach (var item in role.Permissions)
+            {
+                if (role.Permissions.Where(p => p.permissionsCode == item.permissionsCode).ToList().Count == 0)
+                    rol.Permissions.Add(db.Permissions.First(i => i.permissionsCode == item.permissionsCode));   
+            }
+            foreach (var item in rol.Permissions)
+            {
+                if (role.Permissions.Where(p => p.permissionsCode == item.permissionsCode).ToList().Count == 0)
+                {
+                    rol.Permissions.Remove(db.Permissions.First(p => p.permissionsCode == item.permissionsCode));
+                }
+            }
+           
             try
             {
                 db.SaveChanges();
@@ -72,22 +86,39 @@ namespace WebApplication1.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            List<RoleDto> list = new List<RoleDto>();
+            foreach (var item in db.Roles)
+            {
+                list.Add(RoleDto.ConvertToDto(item));
+            }
+            return Ok(list);
         }
 
         // POST: api/Roles
         [ResponseType(typeof(Role))]
-        public IHttpActionResult PostRole(Role role)
+        public IHttpActionResult PostRole(RoleDto role)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            db.Roles.Add(role);
+            Role ro = RoleDto.ConvertToDB1(role);
+            List<Permission> per = new List<Permission>();
+            foreach (var item in ro.Permissions)
+            {
+                per.Add(db.Permissions.First(i=>i.permissionsCode==item.permissionsCode));
+            }
+            ro.Permissions = per;
+            db.Roles.Add(ro);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = role.roleCode }, role);
+            List<RoleDto> list = new List<RoleDto>();
+            foreach (var item in db.Roles)
+            {
+                list.Add(RoleDto.ConvertToDto(item));
+            }
+            return Ok(list);
+
         }
 
         // DELETE: api/Roles/5
