@@ -313,11 +313,6 @@
             </summary>
             <param name="docProperties">The doc properties.</param>
         </member>
-        <member name="F:Spire.Xls.Core.Converter.Exporting.SaveFormat.PCL">
-            <summary>
-            Printer Command Language (PCL) format.
-            </summary>
-        </member>
         <member name="M:Spire.Xls.Core.Converter.Exporting.Xls.XlsCellsDataWriter.WriteRKValues(Spire.Xls.Core.Converter.Exporting.Xls.DataOutStream,System.Collections.ArrayList,Spire.Xls.Core.Converter.Collections.IntArrayList,System.Collections.ArrayList,System.Int32,System.Int32)">
             
             @param listCellValue
@@ -1080,42 +1075,7 @@
             <param name="width">Width in pixels of the new item.</param>
             <returns>Newly added item.</returns>
         </member>
-        <member name="P:Spire.Xls.Core.IShape.Height">
-            <summary>
-            The height of the object. Read/write Integer
-            </summary>
-        </member>
-        <member name="P:Spire.Xls.Core.IShape.Left">
-            <summary>
-            The distance from the left edge of the object to the left edge of column A (on a worksheet) or the left edge of the chart area (on a chart). Read/write Integer.
-            </summary>
-        </member>
-        <member name="P:Spire.Xls.Core.IShape.Top">
-            <summary>
-            The distance from the top edge of the topmost shape in the shape range to the top edge of the worksheet. Read/write Integer.
-            </summary>
-        </member>
-        <member name="P:Spire.Xls.Core.IShape.Width">
-            <summary>
-            The width of the object. Read/write Integer.
-            </summary>
-        </member>
-        <member name="P:Spire.Xls.Core.IShape.ShapeType">
-            <summary>
-            The shape type of the object.
-            </summary>
-        </member>
-        <member name="P:Spire.Xls.Core.IShape.AlternativeText">
-            <summary>
-            Returns or sets the descriptive (alternative) text string for a Shape object. 
-            </summary>
-        </member>
         <!-- 对于成员“P:Spire.Xls.Core.IShape.OnAction”忽略有格式错误的 XML 注释 -->
-        <member name="P:Spire.Xls.Core.IShape.Rotation">
-            <summary>
-            Returns or sets the rotation of the shape, in degrees.
-            </summary>   
-        </member>
         <member name="P:Spire.Xls.Core.IShape.ResizeBehave">
             <summary>
             Specifies all possible settings for how drawing object shall be resized when the rows and columns between its start and ending anchor are resized or inserted(ComboBoxShape and CheckBoxShape and RadioButtonShape set MoveAndResize type value is invalid)
@@ -5828,26 +5788,6 @@
             Worksheet preset shape
             </summary>
         </member>
-        <member name="P:Spire.Xls.Core.Spreadsheet.Shapes.TextBoxShapeBase.InnerLeftMargin">
-            <summary>
-            TextBox's inner left margin.(unit: cm)
-            </summary>
-        </member>
-        <member name="P:Spire.Xls.Core.Spreadsheet.Shapes.TextBoxShapeBase.InnerRightMargin">
-            <summary>
-            TextBox's inner right margin.(unit: cm)
-            </summary>
-        </member>
-        <member name="P:Spire.Xls.Core.Spreadsheet.Shapes.TextBoxShapeBase.InnerTopMargin">
-            <summary>
-            TextBox's inner top margin.(unit: cm)
-            </summary>
-        </member>
-        <member name="P:Spire.Xls.Core.Spreadsheet.Shapes.TextBoxShapeBase.InnerBottomMargin">
-            <summary>
-            TextBox's inner bottom margin.(unit: cm)
-            </summary>
-        </member>
         <member name="F:Spire.Xls.Core.Spreadsheet.Shapes.XlsTextBoxShape.m_2007Coordinates">
             private int m_iImageIndex = -1;
         </member>
@@ -6466,6 +6406,22 @@
             Updates indexes in all records accordingly to the new maximum count property.
             </summary>
             <param name="maxCount">New value of maximum possible XF index.</param>
+        </member>
+        <member name="T:Spire.Xls.Core.Spreadsheet.XlsWorkbook.SpireFreeExp">
+            <summary>
+            Class SpireFreeExp.
+            </summary>
+        </member>
+        <member name="M:Spire.Xls.Core.Spreadsheet.XlsWorkbook.SpireFreeExp.#ctor(System.String)">
+            <summary>
+            Class using the specified error message and a new instance of the class.
+            </summary>
+            <param name="message">the message.</param>
+        </member>
+        <member name="P:Spire.Xls.Core.Spreadsheet.XlsWorkbook.SpireFreeExp.Message">
+            <summary>
+            Gets the message that describes the current exception.
+            </summary>
         </member>
         <member name="M:Spire.Xls.Core.Spreadsheet.WorksheetImageConverter.DrawBackground(Spire.Xls.Core.Interfaces.IInternalAddtionalFormat,System.Drawing.Rectangle,System.Drawing.Graphics)">
             <summary>
@@ -7988,7 +7944,7 @@
         </member>
         <member name="P:Spire.Xls.Core.Spreadsheet.XlsPageSetupBase.TopMargin">
             <summary>
-            Returns or sets the size of the top margin, in inches.
+            Returns or sets the size of the top margin, in points.
             Read/write Double.
             </summary>
         </member>
@@ -8431,7 +8387,7 @@
         </member>
         <member name="P:Spire.Xls.Core.Spreadsheet.XlsRange.HasExternalFormula">
             <summary>
-            Check if the formula in the range has external links. Read-only.
+            Indicates is current range has external formula. Read-only.
             </summary>
         </member>
         <member name="P:Spire.Xls.Core.Spreadsheet.XlsRange.IsStringsPreserved">
@@ -8634,13 +8590,6 @@
             <param name="oldValue">Value to search for.</param>
             <param name="newValues">The replacement value.</param>
             <param name="isVertical">Indicates whether to insert values vertically or horizontally.</param>
-        </member>
-        <member name="M:Spire.Xls.Core.Spreadsheet.XlsRange.TextPartReplace(System.String,System.String)">
-            <summary>
-            Replaces cell's part text and reserve text's format.
-            </summary>
-            <param name="oldPartValue">Part value of cell's text to search for.</param>
-            <param name="newPartValue">The replacement value.</param>
         </member>
         <member name="M:Spire.Xls.Core.Spreadsheet.XlsRange.Replace(System.String,System.Data.DataTable,System.Boolean)">
             <summary>
@@ -11439,251 +11388,6 @@
             <summary>
             Represents A3 extra transverse paper (322 mm by 445 mm).
             </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.A6Paper">
-            <summary>
-            Represents A6 paper (105 x 148 mm)
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperJapaneseEnvelopeKaku2">
-            <summary>
-            Japanese Envelope Kaku #2
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperJapaneseEnvelopeKaku3">
-            <summary>
-            Japanese Envelope Kaku #3
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperJapaneseEnvelopeChou3">
-            <summary>
-            Japanese Envelope Chou #3
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperJapaneseEnvelopeChou4">
-            <summary>
-            Japanese Envelope Chou #4
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperLetterRotated">
-            <summary>
-            11in × 8.5in
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperA3Rotated">
-            <summary>
-            420mm × 297mm
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperA4Rotated">
-            <summary>
-            297mm × 210mm
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperA5Rotated">
-            <summary>
-            210mm × 148mm
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperJISB4Rotated">
-            <summary>
-            B4 (JIS) Rotated 364 x 257 mm
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperJISB5Rotated">
-            <summary>
-            B5 (JIS) Rotated 257 x 182 mm
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperJapanesePostcardRotated">
-            <summary>
-            Japanese Postcard Rotated 148 x 100 mm
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperJapaneseDoublePostcardRotated">
-            <summary>
-            Double Japanese Postcard Rotated 148 x 200 mm
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperA6Rotated">
-            <summary>
-            A6 Rotated 148 x 105 mm
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperJapaneseEnvelopeKaku2Rotated">
-            <summary>
-            Japanese Envelope Kaku #2 Rotated
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperJapaneseEnvelopeKaku3Rotated">
-            <summary>
-            Japanese Envelope Kaku #3 Rotated
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperJapaneseEnvelopeChou3Rotated">
-            <summary>
-            Japanese Envelope Chou #3 Rotated
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperJapaneseEnvelopeChou4Rotated">
-            <summary>
-            Japanese Envelope Chou #4 Rotated
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperJISB6">
-            <summary>
-            B6 (JIS) 128 x 182 mm
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperJISB6Rotated">
-            <summary>
-            B6 (JIS) Rotated 182 x 128 mm
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.Paper12x11">
-            <summary>
-            12 x 11 in
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperJapaneseEnvelopeYou4">
-            <summary>
-            Japanese Envelope You #4
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperJapaneseEnvelopeYou4Rotated">
-            <summary>
-            Japanese Envelope You #4 Rotated
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperPRC16K">
-            <summary>
-            PRC 16K 146 x 215 mm
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperPRC32K">
-            <summary>
-            PRC 32K 97 x 151 mm
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperPRCBig32K">
-            <summary>
-            PRC 32K(Big) 97 x 151 mm
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperPRCEnvelope1">
-            <summary>
-            PRC Envelope #1 102 x 165 mm
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperPRCEnvelope2">
-            <summary>
-            PRC Envelope #2 102 x 176 mm
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperPRCEnvelope3">
-            <summary>
-            PRC Envelope #3 125 x 176 mm
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperPRCEnvelope4">
-            <summary>
-            PRC Envelope #4 110 x 208 mm
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperPRCEnvelope5">
-            <summary>
-            PRC Envelope #5 110 x 220 mm
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperPRCEnvelope6">
-            <summary>
-            PRC Envelope #6 120 x 230 mm
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperPRCEnvelope7">
-            <summary>
-            PRC Envelope #7 160 x 230 mm
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperPRCEnvelope8">
-            <summary>
-            PRC Envelope #8 120 x 309 mm
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperPRCEnvelope9">
-            <summary>
-            PRC Envelope #9 229 x 324 mm
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperPRCEnvelope10">
-            <summary>
-            PRC Envelope #10 324 x 458 mm
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperPRC16KRotated">
-            <summary>
-            PRC 16K Rotated
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperPRC32KRotated">
-            <summary>
-            PRC 32K Rotated
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperPRCBig32KRotated">
-            <summary>
-            PRC 32K(Big) Rotated
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperPRCEnvelope1Rotated">
-            <summary>
-            PRC Envelope #1 Rotated 165 x 102 mm
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperPRCEnvelope2Rotated">
-            <summary>
-            PRC Envelope #2 Rotated 176 x 102 mm
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperPRCEnvelope3Rotated">
-            <summary>
-            PRC Envelope #3 Rotated 176 x 125 mm
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperPRCEnvelope4Rotated">
-            <summary>
-            PRC Envelope #4 Rotated 208 x 110 mm
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperPRCEnvelope5Rotated">
-            <summary>
-            PRC Envelope #5 Rotated 220 x 110 mm
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperPRCEnvelope6Rotated">
-            <summary>
-            PRC Envelope #6 Rotated 230 x 120 mm
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperPRCEnvelope7Rotated">
-             <summary>
-            PRC Envelope #7 Rotated 230 x 160 mm
-             </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperPRCEnvelope8Rotated">
-             <summary>
-            PRC Envelope #8 Rotated 309 x 120 mm
-             </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperPRCEnvelope9Rotated">
-             <summary>
-            PRC Envelope #9 Rotated 324 x 229 mm
-             </summary>
-        </member>
-        <member name="F:Spire.Xls.PaperSizeType.PaperPRCEnvelope10Rotated">
-             <summary>
-            PRC Envelope #10 Rotated 458 x 324 mm
-             </summary>
         </member>
         <member name="T:Spire.Xls.PrintCommentType">
             <summary>
@@ -16075,11 +15779,6 @@
         <member name="F:Spire.Xls.FileFormat.PostScript">
             <summary>
             PostScript file
-            </summary>
-        </member>
-        <member name="F:Spire.Xls.FileFormat.PCL">
-            <summary>
-            Printer Command Language (PCL) format.
             </summary>
         </member>
         <member name="F:Spire.Xls.FileFormat.Version97to2003">
@@ -20799,11 +20498,6 @@
             Returns or sets the default font size.
             </summary>
         </member>
-        <member name="P:Spire.Xls.Workbook.CustomFontFilePaths">
-            <summary>
-            Returns or sets the custom path of font files.
-            </summary>
-        </member>
         <member name="M:Spire.Xls.Workbook.ColumnWidthToPixels(System.Double)">
             <summary>
             onverts column width in characters into column width in pixels.
@@ -21047,6 +20741,18 @@
         <member name="P:Spire.Xls.Workbook.PrintDocument">
             <summary>
             Gets the PrintDocument
+            </summary>
+        </member>
+        <member name="T:Spire.Xls.Workbook.SpireXlsFreeInfo">
+            <summary>
+            Represents the method that will handle an event that with event data.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="args">The args that contains event data.</param>
+        </member>
+        <member name="E:Spire.Xls.Workbook.FreeInformation">
+            <summary>
+            Get Spire.Doc free version limit information.
             </summary>
         </member>
         <member name="M:Spire.Xls.Worksheet.FindAll(System.String,Spire.Xls.FindType,Spire.Xls.ExcelFindOptions)">

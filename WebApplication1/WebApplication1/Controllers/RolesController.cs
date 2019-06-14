@@ -55,21 +55,13 @@ namespace WebApplication1.Controllers
             }
             Role rol = db.Roles.First(r => r.roleCode == role.roleCode);
             rol.roleType = role.roleType;
-          
+
             List<Permission> per = new List<Permission>();
+            role.Permissions = new List<Permission>();
             foreach (var item in role.Permissions)
             {
-                if (role.Permissions.Where(p => p.permissionsCode == item.permissionsCode).ToList().Count == 0)
-                    rol.Permissions.Add(db.Permissions.First(i => i.permissionsCode == item.permissionsCode));   
+                rol.Permissions.Add(db.Permissions.First(i => i.permissionsCode == item.permissionsCode));
             }
-            foreach (var item in rol.Permissions)
-            {
-                if (role.Permissions.Where(p => p.permissionsCode == item.permissionsCode).ToList().Count == 0)
-                {
-                    rol.Permissions.Remove(db.Permissions.First(p => p.permissionsCode == item.permissionsCode));
-                }
-            }
-           
             try
             {
                 db.SaveChanges();
@@ -106,7 +98,7 @@ namespace WebApplication1.Controllers
             List<Permission> per = new List<Permission>();
             foreach (var item in ro.Permissions)
             {
-                per.Add(db.Permissions.First(i=>i.permissionsCode==item.permissionsCode));
+                per.Add(db.Permissions.First(i => i.permissionsCode == item.permissionsCode));
             }
             ro.Permissions = per;
             db.Roles.Add(ro);

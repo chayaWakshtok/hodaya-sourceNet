@@ -1,7 +1,9 @@
-<div>
+<div style="margin: 50px;
+direction: rtl;
+text-align: right;">
   <h2>הוספת קטגוריה</h2>
   <form>
-    <input placeholder="הכנס קטגוריה" name="cat" type="text"[(ngModel)]="category.categoryName">
-    <button (click)="add()">הוסף</button>
+    <input class="form-control" placeholder="הכנס קטגוריה" name="cat" type="text"[(ngModel)]="category.categoryName">
+    <button class="btn btn-outline-dark" style="margin: 13px;float: left;" (click)="add()">הוסף</button>
   </form>
 </div>

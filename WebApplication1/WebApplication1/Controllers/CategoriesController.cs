@@ -83,7 +83,11 @@ namespace WebApplication1.Controllers
             {
                 return BadRequest(ModelState);
             }
-            
+            if(db.Categories.Any(p=>p.categoryName==category.categoryName))
+            {
+                return BadRequest("קטגוריה כבר קימת");
+            }
+
             db.Categories.Add(CategoryDto.ConvertToDB(category));
             db.SaveChanges();
             return Ok();

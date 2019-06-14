@@ -11,6 +11,8 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WordToPDF;
+using Spire.Doc;
+
 using GemBox.Document;
 using Spire.Xls;
 using Microsoft.Office.Interop.Word;
@@ -20,6 +22,8 @@ using System.Threading.Tasks;
 using System.Collections.Specialized;
 using System.Web.Http.Results;
 using Newtonsoft.Json;
+using Spire.Pdf;
+using System.Drawing;
 
 namespace WebApplication1.Controllers
 {
@@ -83,6 +87,7 @@ namespace WebApplication1.Controllers
             return resourcesPathShow;
         }
 
+
         [HttpGet]
         [Route("api/openResource/{idResources}")]
         public bool OpenResource(int idResources)
@@ -133,16 +138,16 @@ namespace WebApplication1.Controllers
             }
 
             var resourceApp = db.Resources.Find(id);
-            var per = new List<Permission>();
+            var per = new List<WebApplication1.Models.Permission>();
             foreach (var item in resource.Permissions)
             {
-                per.Add(db.Permissions.First(p=>p.permissionsCode==item.permissionsCode));
+                per.Add(db.Permissions.First(p => p.permissionsCode == item.permissionsCode));
             }
 
             var cat = new List<Models.Category>();
             foreach (var item in resource.Categories)
             {
-                cat.Add(db.Categories.First(p=>p.CategoryId==item.CategoryId));
+                cat.Add(db.Categories.First(p => p.CategoryId == item.CategoryId));
             }
             resourceApp.Permissions = per;
             resourceApp.Categories = cat;
@@ -179,15 +184,15 @@ namespace WebApplication1.Controllers
             {
                 return NotFound();
             }
-            if (System.IO.File.Exists(filesDir+@"\"+  resource.resourceName)) ;
+            if (System.IO.File.Exists(filesDir + @"\" + resource.resourceName)) ;
             {
                 try
                 {
                     System.IO.File.Delete(filesDir + @"\" + resource.resourceName);
-                    resource.Permissions =null;
+                    resource.Permissions = null;
                     resource.Categories = null;
                     db.SaveChanges();
-                   
+
                     db.Resources.Remove(resource);
                     db.SaveChanges();
                 }
@@ -217,11 +222,11 @@ namespace WebApplication1.Controllers
         [Route("api/deleteFileFromFolder/{name}")]
         public bool DeleteFileFromFolder(string name)
         {
-            if (System.IO.File.Exists(filesDir +@"\" +name)) ;
+            if (System.IO.File.Exists(filesDir + @"\" + name)) ;
             {
                 try
                 {
-                    System.IO.File.Delete(filesDir +@"\"+ name);
+                    System.IO.File.Delete(filesDir + @"\" + name);
                     return true;
                 }
                 catch (System.IO.IOException e)
@@ -230,7 +235,7 @@ namespace WebApplication1.Controllers
                 }
             }
         }
-       
+
         [HttpPost]
         [Route("api/AcceptSameFile")]
         public async Task<IHttpActionResult> AcceptSameFile()
@@ -251,7 +256,7 @@ namespace WebApplication1.Controllers
 
                 foreach (MultipartFileData file in provider.FileData)
                 {
-                    var fileName ="(1)"+ file.Headers.ContentDisposition.FileName.Replace("\"", string.Empty);
+                    var fileName = "(1)" + file.Headers.ContentDisposition.FileName.Replace("\"", string.Empty);
                     byte[] documentData = File.ReadAllBytes(file.LocalFileName);
                     if (Directory.GetFiles(filesDir, fileName).Length == 0)
                     {
@@ -301,11 +306,11 @@ namespace WebApplication1.Controllers
                     if (Directory.GetFiles(filesDir, fileName).Length > 0)
                     {
                         string destFile = System.IO.Path.Combine(filesDir, fileName);
-                        System.IO.File.Delete(filesDir+@"\" + fileName);
+                        System.IO.File.Delete(filesDir + @"\" + fileName);
                         var r = db.Resources.First(p => p.resourceName == fileName);
                         db.Resources.Remove(r);
                         db.SaveChanges();
-                        var per = new List<Permission>();
+                        var per = new List<WebApplication1.Models.Permission>();
                         foreach (var item in resource.Permissions)
                         {
                             per.Add(db.Permissions.First(p => p.permissionsCode == item.permissionsCode));
@@ -355,7 +360,7 @@ namespace WebApplication1.Controllers
 
                 NameValueCollection formdata = provider.FormData;
                 Resource resource = JsonConvert.DeserializeObject<Resource>(formdata["res"].ToString());
-                
+
                 foreach (MultipartFileData file in provider.FileData)
                 {
                     var fileName = file.Headers.ContentDisposition.FileName.Replace("\"", string.Empty);
@@ -364,16 +369,16 @@ namespace WebApplication1.Controllers
                     {
                         string destFile = System.IO.Path.Combine(filesDir, fileName);
                         resource.filePath = destFile;
-                        var per = new List<Permission>();
+                        var per = new List<WebApplication1.Models.Permission>();
                         foreach (var item in resource.Permissions)
                         {
-                            per.Add(db.Permissions.First(p=>p.permissionsCode==item.permissionsCode));
+                            per.Add(db.Permissions.First(p => p.permissionsCode == item.permissionsCode));
                         }
 
                         var cat = new List<Models.Category>();
                         foreach (var item in resource.Categories)
                         {
-                            cat.Add(db.Categories.First(p=>p.CategoryId==item.CategoryId));
+                            cat.Add(db.Categories.First(p => p.CategoryId == item.CategoryId));
                         }
                         resource.Permissions = per;
                         resource.Categories = cat;
@@ -385,7 +390,7 @@ namespace WebApplication1.Controllers
                     }
                     else
                     {
-                        var res = db.Resources.First(p => p.resourceName == fileName);                  
+                        var res = db.Resources.First(p => p.resourceName == fileName);
                         return BadRequest(ResourceDto.ConvertToDto(res).ToString());
                     }
 

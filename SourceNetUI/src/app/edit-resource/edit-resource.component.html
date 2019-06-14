@@ -1,7 +1,7 @@
-<div class="row" dir="rtl">
+<div class="row" dir="rtl" style="margin: 20px;">
   <form class="col-md-6">
 
-     <p>{{SingelFile.resourceName}}</p> 
+     <p style="direction: rtl; text-align: center;">{{SingelFile.resourceName}}</p> 
 
     <div class="form-group row" *ngIf="SingelFile">
       <label for="authorName" class="col-sm-4">שם מחבר:</label>
@@ -26,8 +26,8 @@
             [clearOnBackspace]="false" bindLabel="categoryName" [(ngModel)]="SingelFile.Categories" name="control16">
           </ng-select>
         </div>
-        <button (click)="addCategory()">הוספת קטגוריה</button>
-    <button (click)="editFile()">עדכן</button>
+        <button (click)="addCategory()" class="btn btn-outline-dark">הוספת קטגוריה</button>
+    <button (click)="editFile()" class="btn btn-outline-dark">עדכן</button>
   </form>
 
 </div>

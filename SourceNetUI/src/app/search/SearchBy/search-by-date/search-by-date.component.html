@@ -1,7 +1,5 @@
-<div dir="rtl" class="form-group"> 
-    <a href="#" (click)="removeSearch()" >
-      <span class="glyphicon glyphicon-remove col-sm-2"></span>
-    </a>
+<div dir="rtl" class="form-group row"> 
+    <label class="col-sm-3" for="date">תאריך</label>   
     <input type="date" class="form-control col-sm-7" name="date" [(ngModel)]="searchDate" (change)="search()" required>
-    <label class="col-sm-3" for="date">תאריך</label>
+    <i style="margin: 12px;" class="fas fa-trash-alt" (click)="removeSearch()" ></i> 
 </div>

@@ -1,60 +1,63 @@
 <div class="container">
-    <form dir="rtl">
-      <div class="form-group row">
-          <label class="col-sm-2">מיין לפי</label>
-          <select id="soflow-color" class="form-control col-sm-3" (change)="ChangingValue(sel.value)" #sel>
-            <option value="0" disabled selected>מיין לפי</option>
-            <option value="1">שם קובץ</option>
-            <option value="2">תג</option>
-            <option value="3">סוג קובץ</option>
-            <option value="4">תאריך</option>
-          </select>
+  <form dir="rtl">
+    <div class="form-group row">
+      <label class="col-sm-2">מיין לפי</label>
+      <select id="soflow-color" class="form-control col-sm-3" (change)="ChangingValue(sel.value)" #sel>
+        <option value="0" disabled selected>מיין לפי</option>
+        <option value="1">שם קובץ</option>
+        <option value="2">תג</option>
+        <option value="3">סוג קובץ</option>
+        <option value="4">תאריך</option>
+      </select>
+    </div>
+
+    <div dir="rtl" class="row">
+      <app-search-by-date *ngIf="selectSearchBydate" (searchByDate)="searchByDate($event)"
+        (removeSearchByDate)="removeDate()" class="col-sm-6 col-lg-3"></app-search-by-date>
+      <app-search-by-tag *ngIf="selectSearchBytag" (searchByTag)="searchByTag($event)" (removeSearchByTag)="removeTag()"
+        class="col-sm-6 col-lg-3"></app-search-by-tag>
+      <app-search-by-name *ngIf="selectSearchByname" (searchByName)="searchByName($event)"
+        (removeSearchByName)="removeName()" class="col-sm-6 col-lg-3"></app-search-by-name>
+      <app-search-by-type *ngIf="selectSearchBytype" (searchByType)="searchByType($event)"
+        (removeSearchByType)="removeType()" class="col-sm-6 col-lg-3"></app-search-by-type>
+    </div>
+
+    <div dir="rtl" class="row">
+
+      <div *ngIf="resourceFillter.length==0">
+        <h5>אין נתונים</h5>
       </div>
 
-      <div dir="rtl" class="row">
-        <app-search-by-date *ngIf="selectSearchBydate" (searchByDate)="searchByDate($event)" (removeSearchByDate)="removeDate()"  class="col-sm-6 col-lg-3"></app-search-by-date>
-        <app-search-by-tag *ngIf="selectSearchBytag" (searchByTag)="searchByTag($event)" (removeSearchByTag)="removeTag()" class="col-sm-6 col-lg-3"></app-search-by-tag>
-        <app-search-by-name *ngIf="selectSearchByname" (searchByName)="searchByName($event)" (removeSearchByName)="removeName()" class="col-sm-6 col-lg-3"></app-search-by-name>
-        <app-search-by-type *ngIf="selectSearchBytype" (searchByType)="searchByType($event)" (removeSearchByType)="removeType()" class="col-sm-6 col-lg-3"></app-search-by-type>
-      </div>
+      <div *ngFor="let res of resourceFillter" class="file col-3">
+        <button class="btnFile" type="button" (click)="showFile(res)" [ngSwitch]="res.resourceName">
+          <p>{{res.resourceName}}</p>
 
-      <div dir="rtl" class="row">
-        
-        <div *ngIf="resourceFillter.length==0">
-          <h5>no data</h5>
-        </div>
-        <div *ngFor="let res of resourceFillter" class="file">
-            <button class="btnFile" type="button" (click)="showFile(res)" [ngSwitch]="res.resourceName">
-                <p>{{res.resourceName}}</p>
-                
-                <div *ngIf="res.resourceName.includes('.jpg')">
-                    <img src="../../assets/pictures/jpg.jpg" />
-                </div>
+          <div *ngIf="res.resourceName.includes('.jpg')">
+            <img src="../../assets/pictures/jpg.jpg" />
+          </div>
 
-                <div *ngIf="res.resourceName.includes('.txt')">
-                  <img src="../../assets/pictures/jpg.jpg" />
-              </div>
+          <div *ngIf="res.resourceName.includes('.txt')">
+            <img src="../../assets/pictures/jpg.jpg" />
+          </div>
 
-              <div *ngIf="res.resourceName.includes('.xlsx')">
-                <img src="../../assets/pictures/jpg.jpg" />
-            </div>
+          <div *ngIf="res.resourceName.includes('.xlsx')">
+            <img src="../../assets/pictures/jpg.jpg" />
+          </div>
 
-                <div *ngIf="res.resourceName.includes('.pdf')">
-                    <img src="../../assets/pictures/pdf.jpg" style="margin-top:-20px"/>
-                </div>
+          <div *ngIf="res.resourceName.includes('.pdf')">
+            <img src="../../assets/pictures/pdf.jpg" style="margin-top:-20px" />
+          </div>
 
-                <div *ngIf="res.resourceName.includes('.docx')">
-                    <img src="../../assets/pictures/docx.png" style="margin-top:-20px"/>
-                </div>
+          <div *ngIf="res.resourceName.includes('.docx')">
+            <img src="../../assets/pictures/docx.png" style="margin-top:-20px" />
+          </div>
 
-                <!-- <div *ngSwitchDefault>
+          <!-- <div *ngSwitchDefault>
                     <img src="../../assets/pictures/defult.png"/>
                 </div>  -->
 
-            </button>
-        </div>
+        </button>
       </div>
-    </form>
+    </div>
+  </form>
 </div>
-
-

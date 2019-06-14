@@ -10,8 +10,8 @@
                     <span>גרור תקייה או קובץ</span>
                 </file-drop>
         </div>
-        <div class="upload-table" >
-            <table class="table" style="color: white !important">
+        <div *ngIf="files&&files.length>0" class="upload-table" >
+            <table class="table">
                 <thead>
                     <tr>
                         <th>שם</th>
@@ -27,14 +27,14 @@
                         <td>{{ item.date | date:'short'}}</td>
                         <td>{{ item.type }}</td>
                         <td>
-                            <button (click)="openModal(item,i)">עדכון פרטים</button>
-                            <button (click)="uploadSingleFile(i,item)">העלאת קובץ</button>
+                           <i style="margin-left: 12px;" class="fas fa-pen" (click)="openModal(item,i)"></i>
+                          <i class="fas fa-upload" (click)="uploadSingleFile(i,item)"></i>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <button (click)="openModalUpdateAll()">עדכון פרטים לכל הקבצים</button>
-        <button type="button" class="btn btn-lg" (click)="uploadAllFiles()">העלאת כל הקבצים</button>
+        <button *ngIf="files&&files.length>0" class=" btn btn-outline-dark" (click)="openModalUpdateAll()" style="margin: 12px;">עדכון פרטים לכל הקבצים</button>
+        <button *ngIf="files&&files.length>0" type="button" class="btn btn-outline-dark" (click)="uploadAllFiles()">העלאת כל הקבצים</button>
     </form>
 </div>

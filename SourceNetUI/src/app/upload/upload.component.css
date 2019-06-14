@@ -1,11 +1,5 @@
 .container{
-    position: relative;
-    background-color: rgba(26, 25, 24, 0.952);
-    margin:50px auto;
-    width: 1100px;
-    height: 600px;
-    border-radius: 15px;
-    padding: 20px;
+    margin:30px auto;  
 }
 #upload{
     /*margin-left: 70%;
@@ -23,46 +17,13 @@ label{
     padding-top: 5px;
     font-size: 12pt;
 }
-
-.btn{
-    background-color:#d86d16;
-}
- 
  /* -------------------- Colors: Background */
  .green   { background-color: #fff; }
- 
- 
+
  /* -------------------- Colors: Text */
  .green select   { color: #d86d16; }
- 
- select#soflow, select#soflow-color {
-    -webkit-appearance: button;
-    -webkit-border-radius: 2px;
-    -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
-    -webkit-padding-end: 20px;
-    -webkit-padding-start: 2px;
-    -webkit-user-select: none;
-    background-image: url(http://i62.tinypic.com/15xvbd5.png), -webkit-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);
-    background-position: 97% center;
-    background-repeat: no-repeat;
-    border: 1px solid #AAA;
-    color: #555;
-    font-size: inherit;
-    overflow: hidden;
-    padding: 5px 10px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    width: 150px;
+ table{
+    direction: rtl;
+    text-align: right;
  }
- 
- select#soflow-color {
-    color: #d86d16;
-    background-image: url(http://i62.tinypic.com/15xvbd5.png), -webkit-linear-gradient(#ffffff, #ffffff 40%, #ffffff);
-    /*background-image: url(http://i62.tinypic.com/15xvbd5.png), -webkit-linear-gradient(#d86d16, #d86d16 40%, #d86d16);*/
-    background-color:#fff;
-    -webkit-border-radius: 15px;
-    -moz-border-radius: 15px;
-    border-radius: 5px;
-    padding-left: 15px;
-    padding-right: 45px;
- }
+

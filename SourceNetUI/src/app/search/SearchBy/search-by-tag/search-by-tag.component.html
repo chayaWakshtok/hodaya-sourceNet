@@ -1,10 +1,7 @@
-<div dir="rtl" class="form-group"> 
-    <a href="#" (click)="removeSearch()" >
-        <span class="glyphicon glyphicon-remove col-sm-2"></span>
-    </a>
-    <select *ngIf="tags.length>0" (change)="search()" class="form-control col-sm-7" [(ngModel)]="searchTag">
-        <option *ngFor="let tag of tags" name="tag"  [value]="tag.categoryName">{{tag.categoryName}}</option>
-    </select>
+<div dir="rtl" class="form-group row">
     <label class="col-sm-3" for="tag">תג</label>
-  </div>
-
+    <select *ngIf="tags.length>0" (change)="search()" class="form-control col-sm-7" [(ngModel)]="searchTag">
+        <option *ngFor="let tag of tags" name="tag" [value]="tag.categoryName">{{tag.categoryName}}</option>
+    </select>
+    <i style="margin: 12px;" class="fas fa-trash-alt" (click)="removeSearch()"></i>
+</div>

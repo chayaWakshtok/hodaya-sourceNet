@@ -1,28 +1,32 @@
-<div class="container">
+<div class="container" style="direction: rtl;text-align: right;    margin-top: 45px;
+margin-right: 20px;
+margin-bottom: 10px;">
+  
     <form dir="rtl" >
       
       <div class="form-group row">
-        <label for="name" class="col-sm-2">שם משתמש:</label>
-        <input type="text" class="form-control col-sm-3" id="email" [(ngModel)]="newUser.userName"  placeholder="שם משתמש" name="name" required>
+        <label for="name" class="col-sm-3">שם משתמש:</label>
+        <input type="text" class="form-control col-sm-6" id="email" [(ngModel)]="newUser.userName"  placeholder="שם משתמש" name="name" required>
       </div>
 
       <div class="form-group row">
         <label for="pwd" class="col-sm-2">סיסמה:</label>
-        <input type="password" class="form-control col-sm-3" [(ngModel)]="newUser.password" id="pwd" placeholder="סיסמה" name="pwd" required>
+        <input type="password" class="form-control col-sm-6" [(ngModel)]="newUser.password" id="pwd" placeholder="סיסמה" name="pwd" required>
       </div>
 
       <div class="form-group row">
           <label for="email" class="col-sm-2">מייל</label>
-          <input type="email" class="form-control col-sm-3" [(ngModel)]="newUser.email" id="email" placeholder="מייל" name="email"> 
+          <input type="email" class="form-control col-sm-6" [(ngModel)]="newUser.email" id="email" placeholder="מייל" name="email"> 
       </div>
       <div class="form-group row">
         <label for="email" class="col-sm-2">הרשאות</label>
-        <select name="select" [(ngModel)]="newUser.roleCode">
+        <select class="form-control col-6" name="select" [(ngModel)]="newUser.roleCode">
           <option *ngFor="let role of roles" [ngValue]="role.roleCode">{{role.roleType}}</option>
         </select>
     </div>
 
-      <button type="submit" class="btn btn-lg" (click)="submitForm()">הוסף</button>
+      <button type="submit" style="float: left;margin-left: 20px;
+      margin-bottom: 12px;" class="btn btn-outline-dark" (click)="submitForm()">הוסף</button>
     </form>
 
 </div>

@@ -1,4 +1,4 @@
-<div class="row"  dir="rtl">
+<div class="row"  dir="rtl" style="margin: 20px;">
   <form  class="col-md-6">
 
     <div class="form-group row" *ngIf="SingelFile">
@@ -42,16 +42,16 @@
       </div>
 
     <div class=" buttons">
-        <button type="button" *ngIf="editPer" (click)="editFile()" class="btn col-sm-2">עריכת פרטי קובץ</button>
-        <button type="button" *ngIf="deletePer" (click)="deleteFile()" class="btn col-sm-2">מחיקת קובץ</button>
+        <button type="button" *ngIf="editPer" (click)="editFile()" class="btn btn-outline-dark col-sm-3">עריכת פרטי קובץ</button>
+        <button type="button" *ngIf="deletePer" (click)="deleteFile()" class="btn btn-outline-dark col-sm-3">מחיקת קובץ</button>
 
-      <button type="button" *ngIf="writePremission" (click)="openResource()" class="btn col-sm-2">עריכה</button>
-      <button type="button" *ngIf="donloadPremission" class="btn col-sm-2" (click)="donloadFile()"><a *ngIf="donloadSrc" [href]="donloadSrc" download="{{SingelFile.resourceName}}">הורדה</a></button>
+      <button type="button" *ngIf="writePremission" (click)="openResource()" class="btn btn-outline-dark col-sm-3">עריכה</button>
+      <button type="button" *ngIf="donloadPremission" class="btn btn-outline-dark col-sm-3" (click)="donloadFile()"><a *ngIf="donloadSrc" [href]="donloadSrc" download="{{SingelFile.resourceName}}">הורדה</a></button>
     </div>
   </form>
-  <div class="col-md-6" *ngIf="viewPremission&&url" style="width: 300px; height: 300px;">
+  <div class="col-md-6" *ngIf="viewPremission&&url" style="width: 300px; height: 500px;">
     <simple-pdf-viewer #pdfViewer [src]="url" (onLoadComplete)="onLoadComplete()" [removePageBorders]="true"></simple-pdf-viewer>
   </div>
-  <div class="col-md-6" *ngIf="!viewPremission">not premmision to view</div>
+  <div class="col-md-6" *ngIf="!viewPremission">אין הרשאה לצפיה</div>
 </div>
 

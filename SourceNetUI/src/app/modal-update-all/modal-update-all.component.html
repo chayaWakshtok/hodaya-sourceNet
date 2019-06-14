@@ -1,6 +1,8 @@
-<div class="form-group row">
-  <label class="col-sm-2">סוג הרשאה</label>
-  <ng-select style="background-color: white;
+<div style="direction: rtl;text-align: right;    margin-top: 45px;
+margin-right: 20px;
+margin-bottom: 10px;"><div class="form-group row">
+  <label class="col-sm-4">סוג הרשאה</label>
+  <ng-select class="col-6" style="background-color: white;
   height: 9px;
   width: 270px;" [items]="allPermission" [multiple]="true" [closeOnSelect]="false" [clearOnBackspace]="false"
       bindLabel="permissionsType" placeholder="בחר הרשאות קובץ" [(ngModel)]="Permissions"
@@ -9,17 +11,20 @@
 </div>
 
 <div class="form-group row">
-  <label class="col-sm-2">בחר קטגוריה</label>
-  <ng-select style="background-color: white;
+  <label class="col-sm-4">בחר קטגוריה</label>
+  <ng-select class="col-6" style="background-color: white;
   height: 9px;
   width: 270px;" [items]="allCategories" [multiple]="true" [closeOnSelect]="false" [clearOnBackspace]="false"
       bindLabel="categoryName" placeholder="בחר קטגוריות" [(ngModel)]="Categories"
       name="control1">
   </ng-select>
+  <div class="col-2">
+      <i class="fas fa-plus-circle" (click)="addCategory()"></i>
+  </div>
 </div>
+
 <div>
-  <button (click)="addCategory()">הוספת קטגוריה</button>
+<button class="bt btn btn-outline-dark" style="float: left;margin-left: 20px;
+margin-bottom: 12px;" (click)="save()">שמור</button>
 </div>
-<div>
-<button (click)="save()">שמור</button>
 </div>
